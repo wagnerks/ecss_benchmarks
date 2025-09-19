@@ -66,7 +66,6 @@
     let charts = [];
     let useLogScale = false;
 
-    // функция для фокуса на одной паре столбцов
     function enhanceChart(chart) {
       let hoverTimeout = null;
       let originalData = null;
@@ -83,7 +82,7 @@
                 ds.data = ds.data.map((v, i) => i === index ? v : null);
               });
               chart.update();
-            }, 1200); // задержка 1.2 секунды
+            }, 120);
           }
         } else {
           if (hoverTimeout) {
