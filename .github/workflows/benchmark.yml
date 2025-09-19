@@ -2,46 +2,38 @@ name: Benchmarks
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
-  benchmarks:
+  benchmark:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-      with:
-        submodules: true
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
-    - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y cmake ninja-build g++
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build
 
-    - name: Configure
-      run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 
-    - name: Build
-      run: cmake --build build --config Release -j
+      - name: Build
+        run: cmake --build build -j$(nproc)
 
-    - name: Run benchmarks (JSON)
-      run: |
-        ./build/ecss_benchmarks \
-          --benchmark_format=json \
-          --benchmark_out=benchmarks.json
+      - name: Run benchmarks
+        run: |
+          mkdir -p benchmark-results
+          ./build/ecss_benchmarks --benchmark_format=json --benchmark_out=benchmark-results/results.json
 
-    - name: Upload JSON result
-      uses: actions/upload-artifact@v4
-      with:
-        name: benchmark-json
-        path: benchmarks.json
-
-    - name: Publish benchmark report
-      uses: benchmark-action/github-action-benchmark@v1
-      with:
-        tool: 'googlecpp'
-        output-file-path: benchmarks.json
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        auto-push: true
-        benchmark-data-dir-path: benchmarks_data
-        comment-always: true
+      - name: Upload results to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: benchmark-results
+          publish_branch: gh-pages
+          keep_files: true   # сохраняет историю JSON
