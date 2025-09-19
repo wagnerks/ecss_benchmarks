@@ -23,12 +23,10 @@
     }
 
     function parseName(name) {
-      // "ecss    _insert/1024" → { lib: "ecss", test: "insert", count: 1024 }
-      const parts = name.trim().split(/\s+/); 
-      const lib = parts[0];
-      const rest = parts[1]; // "_insert/1024"
-      const [test, count] = rest.replace(/^_/, "").split("/");
-      return { lib, test, count: parseInt(count) };
+      // "ecss.....................insert/1024"
+      const [lib, rest] = name.split(/\.{2,}/);
+      const [test, count] = rest.split("/");
+      return { lib: lib.trim(), test: test.trim(), count: parseInt(count) };
     }
 
     function groupByTest(benchmarks) {
@@ -58,12 +56,12 @@
           datasets: [
             {
               label: "ecss",
-              data: ecssData.map(d => d.time / 1000), // ns → µs
+              data: ecssData.map(d => d.time),
               backgroundColor: "rgba(220, 53, 69, 0.7)" // red
             },
             {
               label: "entt",
-              data: enttData.map(d => d.time / 1000),
+              data: enttData.map(d => d.time),
               backgroundColor: "rgba(40, 167, 69, 0.7)" // green
             }
           ]
@@ -75,7 +73,7 @@
           },
           scales: {
             x: { title: { display: true, text: "Entities" } },
-            y: { title: { display: true, text: "Time (µs)" }, beginAtZero: true }
+            y: { title: { display: true, text: "Time (" + ecssData[0]?.unit || "µs" + ")" }, beginAtZero: true }
           }
         }
       });
