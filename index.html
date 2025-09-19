@@ -17,13 +17,15 @@
     }
     .charts {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 1fr); /* 2 графика в ряд */
       gap: 20px;
     }
     canvas {
       background: #2a2a2a;
       border-radius: 8px;
       padding: 10px;
+      width: 100% !important;
+      height: 300px !important; /* фиксированная высота графиков */
     }
     .toggle {
       display: flex;
@@ -96,6 +98,7 @@
           },
           options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
               title: { display: true, text: test, color: "#fff" },
               legend: { labels: { color: "#fff" } }
