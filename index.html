@@ -67,34 +67,38 @@
     let useLogScale = false;
 
     function enhanceChart(chart) {
-      let hoverTimeout = null;
-      let originalData = null;
-
-      chart.options.onHover = (evt, elements) => {
-        if (elements.length > 0) {
-          const index = elements[0].index;
-          if (!hoverTimeout) {
-            hoverTimeout = setTimeout(() => {
-              if (!originalData) {
-                originalData = chart.data.datasets.map(ds => [...ds.data]);
-              }
-              chart.data.datasets.forEach(ds => {
-                ds.data = ds.data.map((v, i) => i === index ? v : null);
-              });
-              chart.update();
-            }, 120);
-          }
-        } else {
-          if (hoverTimeout) {
-            clearTimeout(hoverTimeout);
-            hoverTimeout = null;
-          }
-          if (originalData) {
-            chart.data.datasets.forEach((ds, di) => {
-              ds.data = originalData[di];
-            });
+      let hoverTimeout;
+    
+      chart.options.onHover = (evt, activeEls) => {
+        if (activeEls.length > 0) {
+          const el = activeEls[0];
+          const value = chart.data.datasets[el.datasetIndex].data[el.index];
+    
+          clearTimeout(hoverTimeout);
+          hoverTimeout = setTimeout(() => {
+            chart.options.scales.y.beginAtZero = true;
+            chart.options.scales.y.suggestedMax = value;
             chart.update();
-            originalData = null;
+          }, 300);
+        } else {
+          clearTimeout(hoverTimeout);
+          hoverTimeout = setTimeout(() => {
+            chart.options.scales.y.suggestedMax = undefined;
+            chart.update();
+          }, 300);
+        }
+      };
+    
+      chart.options.plugins.tooltip = {
+        enabled: true,
+        external: (ctx) => {
+          const index = ctx.tooltip?.dataPoints?.[0]?.dataIndex;
+          if (index !== undefined) {
+            const values = chart.data.datasets.map(ds => ds.data[index]).filter(v => v != null);
+            const maxVal = Math.max(...values);
+            chart.options.scales.y.beginAtZero = true;
+            chart.options.scales.y.suggestedMax = maxVal;
+            chart.update();
           }
         }
       };
