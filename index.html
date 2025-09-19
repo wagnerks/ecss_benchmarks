@@ -2,25 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ecss Benchmarks</title>
+  <title>ecss vs entt Benchmarks</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body { font-family: sans-serif; margin: 20px; background: #fafafa; }
     h1 { margin-bottom: 0.5em; }
-    .chart-container { width: 100%; max-width: 900px; margin-bottom: 50px; }
+    .chart-container { width: 100%; max-width: 1000px; margin-bottom: 60px; }
   </style>
 </head>
 <body>
   <h1>ecss vs entt Benchmarks</h1>
-  <p>Data from latest CI run (GitHub Actions → <code>results.json</code>)</p>
+  <p>Data from latest CI run (<code>results.json</code>)</p>
 
-  <div class="chart-container">
-    <canvas id="insertChart"></canvas>
-  </div>
-
-  <div class="chart-container">
-    <canvas id="createChart"></canvas>
-  </div>
+  <div id="charts"></div>
 
   <script>
     async function loadResults() {
@@ -28,43 +22,72 @@
       return await response.json();
     }
 
-    function extractData(benchmarks, keyword) {
-      return benchmarks.filter(b => b.name.includes(keyword));
+    function parseName(name) {
+      // "ecss    _insert/1024" → { lib: "ecss", test: "insert", count: 1024 }
+      const parts = name.trim().split(/\s+/); 
+      const lib = parts[0];
+      const rest = parts[1]; // "_insert/1024"
+      const [test, count] = rest.replace(/^_/, "").split("/");
+      return { lib, test, count: parseInt(count) };
     }
 
-    function makeChart(ctxId, label, benchmarks) {
-      const ctx = document.getElementById(ctxId).getContext("2d");
+    function groupByTest(benchmarks) {
+      const groups = {};
+      for (const b of benchmarks) {
+        const { lib, test, count } = parseName(b.name);
+        if (!groups[test]) groups[test] = { ecss: [], entt: [] };
+        groups[test][lib].push({ count, time: b.real_time });
+      }
+      for (const test in groups) {
+        for (const lib of ["ecss", "entt"]) {
+          groups[test][lib].sort((a, b) => a.count - b.count);
+        }
+      }
+      return groups;
+    }
+
+    function makeChart(container, testName, ecssData, enttData) {
+      const ctx = document.createElement("canvas");
+      ctx.className = "chart-container";
+      container.appendChild(ctx);
+
       new Chart(ctx, {
-        type: 'bar',
+        type: "bar",
         data: {
-          labels: benchmarks.map(b => b.name),
-          datasets: [{
-            label: label,
-            data: benchmarks.map(b => b.real_time),
-            backgroundColor: 'rgba(54, 162, 235, 0.6)'
-          }]
+          labels: ecssData.map(d => d.count),
+          datasets: [
+            {
+              label: "ecss",
+              data: ecssData.map(d => d.time / 1000), // ns → µs
+              backgroundColor: "rgba(220, 53, 69, 0.7)" // red
+            },
+            {
+              label: "entt",
+              data: enttData.map(d => d.time / 1000),
+              backgroundColor: "rgba(40, 167, 69, 0.7)" // green
+            }
+          ]
         },
         options: {
           responsive: true,
-          plugins: { legend: { display: false } },
+          plugins: {
+            title: { display: true, text: testName }
+          },
           scales: {
-            y: {
-              title: { display: true, text: "Time (ns)" },
-              beginAtZero: true
-            }
+            x: { title: { display: true, text: "Entities" } },
+            y: { title: { display: true, text: "Time (µs)" }, beginAtZero: true }
           }
         }
       });
     }
 
     loadResults().then(json => {
-      const data = json.benchmarks;
+      const groups = groupByTest(json.benchmarks);
+      const chartsContainer = document.getElementById("charts");
 
-      // insert tests
-      makeChart("insertChart", "Insert benchmark", extractData(data, "_insert/"));
-
-      // create_entities tests
-      makeChart("createChart", "Create entities benchmark", extractData(data, "_create_entities/"));
+      for (const test in groups) {
+        makeChart(chartsContainer, test, groups[test].ecss, groups[test].entt);
+      }
     });
   </script>
 </body>
