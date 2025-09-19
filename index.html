@@ -38,7 +38,7 @@
     bottom: 20px;
     right: 20px;
     padding: 10px 18px;
-    background: rgba(50, 50, 50, 0.6); /* полупрозрачная */
+    background: rgba(50, 50, 50, 0.6);
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -65,6 +65,41 @@
   <script>
     let charts = [];
     let useLogScale = false;
+
+    // функция для фокуса на одной паре столбцов
+    function enhanceChart(chart) {
+      let hoverTimeout = null;
+      let originalData = null;
+
+      chart.options.onHover = (evt, elements) => {
+        if (elements.length > 0) {
+          const index = elements[0].index;
+          if (!hoverTimeout) {
+            hoverTimeout = setTimeout(() => {
+              if (!originalData) {
+                originalData = chart.data.datasets.map(ds => [...ds.data]);
+              }
+              chart.data.datasets.forEach(ds => {
+                ds.data = ds.data.map((v, i) => i === index ? v : null);
+              });
+              chart.update();
+            }, 1200); // задержка 1.2 секунды
+          }
+        } else {
+          if (hoverTimeout) {
+            clearTimeout(hoverTimeout);
+            hoverTimeout = null;
+          }
+          if (originalData) {
+            chart.data.datasets.forEach((ds, di) => {
+              ds.data = originalData[di];
+            });
+            chart.update();
+            originalData = null;
+          }
+        }
+      };
+    }
 
     async function loadData() {
       const response = await fetch('results.json');
@@ -161,6 +196,7 @@
           }
         });
 
+        enhanceChart(chart);
         charts.push(chart);
       });
     }
