@@ -33,6 +33,19 @@
       width: 100% !important;
       height: 100% !important;
     }
+    #toggleScale {
+      display: block;
+      margin: 0 auto 20px auto;
+      padding: 8px 16px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #toggleScale:hover {
+      background: #444;
+    }
   </style>
 </head>
 <body>
@@ -41,9 +54,14 @@
     <a href="https://github.com/wagnerks/ecss" target="_blank" style="color:#4ea3ff">[ecss repo]</a>
   </h1>
 
+  <button id="toggleScale">Switch to Log Scale</button>
+
   <div id="charts"></div>
 
   <script>
+    let charts = [];
+    let useLogScale = false;
+
     async function loadData() {
       const response = await fetch('results.json');
       const json = await response.json();
@@ -71,7 +89,7 @@
         const ecssData = labels.map(s => sizes[s].ecss || null);
         const enttData = labels.map(s => sizes[s].entt || null);
 
-        new Chart(canvas.getContext('2d'), {
+        const chart = new Chart(canvas.getContext('2d'), {
           data: {
             labels,
             datasets: [
@@ -108,6 +126,7 @@
             },
             scales: {
               y: {
+                type: useLogScale ? 'logarithmic' : 'linear',
                 beginAtZero: false,
                 title: {
                   display: true,
@@ -137,8 +156,19 @@
             }
           }
         });
+
+        charts.push(chart);
       });
     }
+
+    document.getElementById('toggleScale').addEventListener('click', () => {
+      useLogScale = !useLogScale;
+      charts.forEach(chart => {
+        chart.options.scales.y.type = useLogScale ? 'logarithmic' : 'linear';
+        chart.update();
+      });
+      document.getElementById('toggleScale').innerText = useLogScale ? "Switch to Linear Scale" : "Switch to Log Scale";
+    });
 
     loadData();
   </script>
