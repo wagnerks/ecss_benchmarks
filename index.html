@@ -24,7 +24,7 @@
 
     function parseName(name) {
       // "ecss.....................insert/1024"
-      const [lib, rest] = name.split(/\.{2,}/); // разделяем по многоточию
+      const [lib, rest] = name.split(/\.{2,}/);
       const [test, count] = rest.split("/");
       return { lib: lib.trim(), test: test.trim(), count: parseInt(count) };
     }
@@ -34,7 +34,7 @@
       for (const b of benchmarks) {
         const { lib, test, count } = parseName(b.name);
         if (!groups[test]) groups[test] = { ecss: [], entt: [] };
-        groups[test][lib].push({ count, time: b.real_time, unit: b.time_unit });
+        groups[test][lib].push({ count, time: b.cpu_time, unit: b.time_unit });
       }
       for (const test in groups) {
         for (const lib of ["ecss", "entt"]) {
