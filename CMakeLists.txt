@@ -61,3 +61,11 @@ target_include_directories(ecss_benchmarks
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
+add_custom_target(run_benchmarks_json
+    COMMAND ecss_benchmarks
+        --benchmark_format=json
+        --benchmark_out=${CMAKE_BINARY_DIR}/benchmarks.json
+    DEPENDS ecss_benchmarks
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Run benchmarks and output JSON results"
+)
