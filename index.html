@@ -24,7 +24,7 @@
 
     function parseName(name) {
       // "ecss.....................insert/1024"
-      const [lib, rest] = name.split(/\.{2,}/);
+      const [lib, rest] = name.split(/\.{2,}/); // разделяем по многоточию
       const [test, count] = rest.split("/");
       return { lib: lib.trim(), test: test.trim(), count: parseInt(count) };
     }
@@ -34,7 +34,7 @@
       for (const b of benchmarks) {
         const { lib, test, count } = parseName(b.name);
         if (!groups[test]) groups[test] = { ecss: [], entt: [] };
-        groups[test][lib].push({ count, time: b.real_time });
+        groups[test][lib].push({ count, time: b.real_time, unit: b.time_unit });
       }
       for (const test in groups) {
         for (const lib of ["ecss", "entt"]) {
@@ -48,6 +48,8 @@
       const ctx = document.createElement("canvas");
       ctx.className = "chart-container";
       container.appendChild(ctx);
+
+      const unit = (ecssData[0]?.unit || enttData[0]?.unit || "us");
 
       new Chart(ctx, {
         type: "bar",
@@ -73,7 +75,7 @@
           },
           scales: {
             x: { title: { display: true, text: "Entities" } },
-            y: { title: { display: true, text: "Time (" + ecssData[0]?.unit || "µs" + ")" }, beginAtZero: true }
+            y: { title: { display: true, text: `Time (${unit})` }, beginAtZero: true }
           }
         }
       });
