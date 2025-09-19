@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ecss Benchmarks</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: sans-serif; margin: 20px; background: #fafafa; }
+    h1 { margin-bottom: 0.5em; }
+    .chart-container { width: 100%; max-width: 900px; margin-bottom: 50px; }
+  </style>
+</head>
+<body>
+  <h1>ecss vs entt Benchmarks</h1>
+  <p>Data from latest CI run (GitHub Actions → <code>results.json</code>)</p>
+
+  <div class="chart-container">
+    <canvas id="insertChart"></canvas>
+  </div>
+
+  <div class="chart-container">
+    <canvas id="createChart"></canvas>
+  </div>
+
+  <script>
+    async function loadResults() {
+      const response = await fetch("results.json");
+      return await response.json();
+    }
+
+    function extractData(benchmarks, keyword) {
+      return benchmarks.filter(b => b.name.includes(keyword));
+    }
+
+    function makeChart(ctxId, label, benchmarks) {
+      const ctx = document.getElementById(ctxId).getContext("2d");
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: benchmarks.map(b => b.name),
+          datasets: [{
+            label: label,
+            data: benchmarks.map(b => b.real_time),
+            backgroundColor: 'rgba(54, 162, 235, 0.6)'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: {
+              title: { display: true, text: "Time (ns)" },
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    loadResults().then(json => {
+      const data = json.benchmarks;
+
+      // insert tests
+      makeChart("insertChart", "Insert benchmark", extractData(data, "_insert/"));
+
+      // create_entities tests
+      makeChart("createChart", "Create entities benchmark", extractData(data, "_create_entities/"));
+    });
+  </script>
+</body>
+</html>
