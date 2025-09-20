@@ -1,230 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>ecss vs entt benchmarks</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
- <style>
-  body {
-    margin: 0;
-    font-family: sans-serif;
-    background: #121212;
-    color: #e0e0e0;
-  }
-  h1 {
-    padding: 20px;
-    text-align: center;
-  }
-  #charts {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 20px;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  .chart-container {
-    background: #1e1e1e;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.7);
-    height: 300px;
-  }
-  canvas {
-    width: 100% !important;
-    height: 100% !important;
-  }
-  #toggleScale {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px 18px;
-    background: rgba(50, 50, 50, 0.6);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    z-index: 1000;
-    transition: background 0.3s, opacity 0.3s;
-  }
-  #toggleScale:hover {
-    background: rgba(70, 70, 70, 0.9);
-    opacity: 1;
-  }
-</style>
+	<meta charset="UTF-8">
+	<title>ecss vs entt benchmarks</title>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<style>
+		body {
+			margin: 0;
+			font-family: sans-serif;
+			background: #121212;
+			color: #e0e0e0;
+		}
+
+		h1 {
+			padding: 20px;
+			text-align: center;
+		}
+
+		#charts {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			grid-gap: 20px;
+			padding: 20px;
+			box-sizing: border-box;
+		}
+
+		.chart-container {
+			background: #1e1e1e;
+			border-radius: 8px;
+			padding: 10px;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+			height: 300px;
+		}
+
+		canvas {
+			width: 100% !important;
+			height: 100% !important;
+		}
+
+		#toggleScale {
+			position: fixed;
+			bottom: 20px;
+			right: 20px;
+			padding: 10px 18px;
+			background: rgba(50, 50, 50, 0.6);
+			color: #fff;
+			border: none;
+			border-radius: 8px;
+			cursor: pointer;
+			font-size: 14px;
+			z-index: 1000;
+			transition: background 0.3s, opacity 0.3s;
+		}
+
+		#toggleScale:hover {
+			background: rgba(70, 70, 70, 0.9);
+			opacity: 1;
+		}
+	</style>
 </head>
+
 <body>
-  <h1>
-    <a href="https://github.com/wagnerks/ecss" target="_blank" style="color:#4ea3ff">ecss</a> Benchmarks
-  </h1>
+	<h1>
+		<a href="https://github.com/wagnerks/ecss" target="_blank" style="color:#4ea3ff">ecss</a> Benchmarks
+	</h1>
 
-  <button id="toggleScale">Switch to Log Scale</button>
+	<button id="toggleScale">Switch to Log Scale</button>
 
-  <div id="charts"></div>
+	<div id="charts"></div>
 
-  <script>
-    let charts = [];
-    let useLogScale = false;
+	<script>
+		let charts = [];
+		let useLogScale = false;
 
-     function enhanceChart(chart) {
-        let hoverTimeout;
-      
-        chart.options.onHover = (evt, activeEls) => {
-          if (activeEls.length > 0) {
-            const el = activeEls[0];
-            const value = chart.data.datasets[el.datasetIndex].data[el.index];
-      
-            clearTimeout(hoverTimeout);
-            hoverTimeout = setTimeout(() => {
-              chart.options.scales.y.beginAtZero = true;
-              chart.options.scales.y.suggestedMax = value;
-              chart.update('none');
-            }, 300);
-          } else {
-            clearTimeout(hoverTimeout);
-            hoverTimeout = setTimeout(() => {
-              chart.options.scales.y.suggestedMax = undefined;
-              chart.update('none');
-            }, 300);
-          }
-        };
-      
-        chart.options.scales.x.ticks.callback = function(val, index) {
-          const orig = this.getLabelForValue(val);
-          return orig;
-        };
-      
-        chart.canvas.addEventListener('mousemove', (evt) => {
-          const points = chart.scales.x.getValueForPixel(evt.offsetX);
-          const index = Math.round(points);
-          if (index >= 0 && index < chart.data.labels.length) {
-            const values = chart.data.datasets.map(ds => ds.data[index]).filter(v => v != null);
-            if (values.length > 0) {
-              const maxVal = Math.max(...values);
-              chart.options.scales.y.beginAtZero = true;
-              chart.options.scales.y.suggestedMax = maxVal;
-              chart.update('none');
-            }
-          }
-        });
-      
-        chart.canvas.addEventListener('mouseleave', () => {
-          chart.options.scales.y.suggestedMax = undefined;
-          chart.update('none');
-        });
-      }
+		function enhanceChart(chart) {
+
+			chart.canvas.addEventListener('mousemove', (evt) => {
+				const { left, right, top, bottom } = chart.chartArea;
+
+				// ignore if mouse is outside the bars area
+				if (evt.offsetX < left || evt.offsetX > right || evt.offsetY < top || evt.offsetY > bottom) {
+					chart.options.scales.y.max = undefined;
+					chart.update('active'); // smooth transition
+					return;
+				}
+
+				const rect = chart.canvas.getBoundingClientRect();
+				const x = evt.clientX - rect.left;
+				let nearestIndex = -1;
+
+				chart.data.labels.forEach((label, idx) => {
+					let minBarLeft = Infinity;
+					let maxBarRight = -Infinity;
+					for (let dsIdx = 0; dsIdx < chart.data.datasets.length; dsIdx++) {
+						const meta = chart.getDatasetMeta(dsIdx);
+						const bar = meta.data[idx];
+						if (bar) {
+							const barLeft = bar.x - (bar.width || 20) / 2;
+							const barRight = bar.x + (bar.width || 20) / 2;
+							if (barLeft < minBarLeft) minBarLeft = barLeft;
+							if (barRight > maxBarRight) maxBarRight = barRight;
+						}
+					}
+					if (x >= minBarLeft && x <= maxBarRight) {
+						nearestIndex = idx;
+					}
+				});
+
+				if (nearestIndex >= 0) {
+					const label = chart.data.labels[nearestIndex];
+					const values = chart.data.datasets.map(ds => ds.data[nearestIndex]).filter(v => v != null);
+					if (values.length > 0) {
+						const maxVal = Math.max(...values);
+						chart.options.scales.y.beginAtZero = true;
+						chart.options.scales.y.max = Math.ceil(maxVal * 1.1); // 10% padding
+						chart.update();
+					}
+				}
+			});
+
+			chart.canvas.addEventListener('mouseleave', () => {
+				chart.options.scales.y.max = undefined; // reset scale
+				chart.update(); // animate back
+			});
+		}
 
 
-    async function loadData() {
-      const response = await fetch('results.json');
-      const json = await response.json();
+		async function loadData() {
+			const response = await fetch('results.json');
+			const json = await response.json();
 
-      const groups = {};
-      json.benchmarks.forEach(b => {
-        const match = b.name.match(/(ecss|entt).*?([a-zA-Z_]+)\/(\d+)/);
-        if (!match) return;
-        const [, ecs, testName, size] = match;
-        if (!groups[testName]) groups[testName] = {};
-        if (!groups[testName][size]) groups[testName][size] = {};
-        groups[testName][size][ecs] = b.cpu_time;
-      });
+			const groups = {};
+			json.benchmarks.forEach(b => {
+				const match = b.name.match(/(ecss|entt).*?([a-zA-Z_]+)\/(\d+)/);
+				if (!match) return;
+				const [, ecs, testName, size] = match;
+				if (!groups[testName]) groups[testName] = {};
+				if (!groups[testName][size]) groups[testName][size] = {};
+				groups[testName][size][ecs] = b.cpu_time;
+			});
 
-      const chartsDiv = document.getElementById('charts');
+			const chartsDiv = document.getElementById('charts');
 
-      Object.entries(groups).forEach(([testName, sizes]) => {
-        const container = document.createElement('div');
-        container.className = 'chart-container';
-        const canvas = document.createElement('canvas');
-        container.appendChild(canvas);
-        chartsDiv.appendChild(container);
+			Object.entries(groups).forEach(([testName, sizes]) => {
+				const container = document.createElement('div');
+				container.className = 'chart-container';
+				const canvas = document.createElement('canvas');
+				container.appendChild(canvas);
+				chartsDiv.appendChild(container);
 
-        const labels = Object.keys(sizes).map(s => parseInt(s));
-        const ecssData = labels.map(s => sizes[s].ecss || null);
-        const enttData = labels.map(s => sizes[s].entt || null);
+				const labels = Object.keys(sizes).map(s => parseInt(s));
+				const ecssData = labels.map(s => sizes[s].ecss || null);
+				const enttData = labels.map(s => sizes[s].entt || null);
 
-        const chart = new Chart(canvas.getContext('2d'), {
-          data: {
-            labels,
-            datasets: [
-              {
-                type: 'bar',
-                label: 'ecss',
-                data: ecssData,
-                backgroundColor: 'rgba(220, 20, 60, 0.7)'
-              },
-              {
-                type: 'bar',
-                label: 'entt',
-                data: enttData,
-                backgroundColor: 'rgba(0, 128, 0, 0.7)'
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              title: {
-                display: true,
-                text: testName,
-                color: '#fff',
-                font: { size: 16 }
-              },
-              legend: {
-                labels: {
-                  color: '#fff',
-                  font: { size: 14 }
-                }
-              }
-            },
-            scales: {
-              y: {
-                type: useLogScale ? 'logarithmic' : 'linear',
-                beginAtZero: false,
-                title: {
-                  display: true,
-                  text: 'Time (µs)',
-                  color: '#fff',
-                  font: { size: 14 }
-                },
-                ticks: {
-                  color: '#fff',
-                  font: { size: 12 }
-                },
-                grid: { color: "#444" }
-              },
-              x: {
-                title: {
-                  display: true,
-                  text: 'Entities',
-                  color: '#fff',
-                  font: { size: 14 }
-                },
-                ticks: {
-                  color: '#fff',
-                  font: { size: 12 }
-                },
-                grid: { color: "#444" }
-              }
-            }
-          }
-        });
+				const chart = new Chart(canvas.getContext('2d'), {
+					data: {
+						labels,
+						datasets: [
+							{
+								type: 'bar',
+								label: 'ecss',
+								data: ecssData,
+								backgroundColor: 'rgb(78, 27, 201)'
+							},
+							{
+								type: 'bar',
+								label: 'entt',
+								data: enttData,
+								backgroundColor: 'rgba(0, 128, 0, 0.7)'
+							}
+						]
+					},
+					options: {
+						responsive: true,
+						maintainAspectRatio: false,
+						animation: {
+							duration: 500,   // 0.5s
+							easing: 'easeOutCubic'
+						},
+						plugins: {
+							title: {
+								display: true,
+								text: testName,
+								color: '#fff',
+								font: { size: 16 }
+							},
+							legend: {
+								labels: {
+									color: '#fff',
+									font: { size: 14 }
+								}
+							}
+						},
+						scales: {
+							y: {
+								type: useLogScale ? 'logarithmic' : 'linear',
+								beginAtZero: false,
+								title: {
+									display: true,
+									text: 'Time (µs)',
+									color: '#fff',
+									font: { size: 14 }
+								},
+								ticks: {
+									color: '#fff',
+									font: { size: 12 },
+									count: 5
+								},
+								grid: { color: "#444" },
+								afterFit: (axis) => { axis.width = 90; } // px reserved for labels
+							},
+							x: {
+								title: {
+									display: true,
+									text: 'Entities',
+									color: '#fff',
+									font: { size: 14 }
+								},
+								ticks: {
+									color: '#fff',
+									font: { size: 12 }
+								},
+								grid: { color: "#444" }
+							}
+						}
+					}
+				});
 
-        enhanceChart(chart);
-        charts.push(chart);
-      });
-    }
+				enhanceChart(chart);
+				charts.push(chart);
+			});
+		}
 
-    document.getElementById('toggleScale').addEventListener('click', () => {
-      useLogScale = !useLogScale;
-      charts.forEach(chart => {
-        chart.options.scales.y.type = useLogScale ? 'logarithmic' : 'linear';
-        chart.update();
-      });
-      document.getElementById('toggleScale').innerText = useLogScale ? "Switch to Linear Scale" : "Switch to Log Scale";
-    });
+		document.getElementById('toggleScale').addEventListener('click', () => {
+			useLogScale = !useLogScale;
+			charts.forEach(chart => {
+				chart.options.scales.y.type = useLogScale ? 'logarithmic' : 'linear';
+				chart.update();
+			});
+			document.getElementById('toggleScale').innerText = useLogScale ? "Switch to Linear Scale" : "Switch to Log Scale";
+		});
 
-    loadData();
-  </script>
+		loadData();
+	</script>
 </body>
+
 </html>
