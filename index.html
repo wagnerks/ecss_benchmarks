@@ -6,6 +6,77 @@
 	<title>ecss vs other ecs benchmarks</title>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<style>
+		a {
+			color: #4ea3ff;
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+			color: #82cfff;
+		}
+
+		body {
+			margin: 0;
+			font-family: sans-serif;
+			background: #121212;
+			color: #e0e0e0;
+		}
+
+		h1 {
+			padding: 20px;
+			text-align: center;
+		}
+
+		#charts {
+			display: grid;
+			grid-template-columns: repeat(5, 1fr);
+			grid-gap: 20px;
+			padding: 20px;
+			box-sizing: border-box;
+		}
+
+		.chart-container {
+			background: #1e1e1e;
+			border-radius: 8px;
+			padding: 10px;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+			height: 300px;
+		}
+
+		canvas {
+			width: 100% !important;
+			height: 100% !important;
+		}
+
+		#controls {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 15px;
+			background: #1e1e1e;
+			border-bottom: 1px solid #333;
+			position: sticky;
+			top: 0;
+			z-index: 1000;
+		}
+
+		#entityCount {
+			width: 60%;
+			margin-top: 10px;
+		}
+
+		.ticks {
+			display: flex;
+			justify-content: space-between;
+			width: 60%;
+			font-size: 12px;
+			color: #aaa;
+			margin-top: 4px;
+			font-family: monospace;
+		}
+
 		.section-separator {
 			border: none;
 			height: 1px;
@@ -55,75 +126,12 @@
 			border-radius: 6px;
 			overflow-x: auto;
 		}
-
-		a {
-			color: #4ea3ff;
-			text-decoration: none;
-		}
-
-		a:hover {
-			text-decoration: underline;
-			color: #82cfff;
-		}
-
-		body {
-			margin: 0;
-			font-family: sans-serif;
-			background: #121212;
-			color: #e0e0e0;
-		}
-
-		h1 {
-			padding: 20px;
-			text-align: center;
-		}
-
-		#charts {
-			display: grid;
-			grid-template-columns: repeat(2, 1fr);
-			grid-gap: 20px;
-			padding: 20px;
-			box-sizing: border-box;
-		}
-
-		.chart-container {
-			background: #1e1e1e;
-			border-radius: 8px;
-			padding: 10px;
-			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
-			height: 300px;
-		}
-
-		canvas {
-			width: 100% !important;
-			height: 100% !important;
-		}
-
-		#toggleScale {
-			position: fixed;
-			bottom: 20px;
-			right: 20px;
-			padding: 10px 18px;
-			background: rgba(50, 50, 50, 0.6);
-			color: #fff;
-			border: none;
-			border-radius: 8px;
-			cursor: pointer;
-			font-size: 14px;
-			z-index: 1000;
-			transition: background 0.3s, opacity 0.3s;
-		}
-
-		#toggleScale:hover {
-			background: rgba(70, 70, 70, 0.9);
-			opacity: 1;
-		}
 	</style>
 </head>
 
 <body>
 	<div style="padding:20px; max-width:1920px; margin:0 auto; line-height:1.6;">
-		<h2>ECSS Benchamrks</h2>
+		<h2>ECSS Benchmarks</h2>
 		<div class="info-grid">
 			<div>
 				<h3>System Info</h3>
@@ -134,17 +142,17 @@
 				<div id="ecss-summary"></div>
 			</div>
 		</div>
-	</div> <!-- closes your centered intro -->
+	</div>
+
 	<hr class="section-separator">
-	<div style="padding:20px; max-width:1920px; margin:0 auto; line-height:1.6;"> <!-- next block -->
+
+	<div style="padding:20px; max-width:1920px; margin:0 auto; line-height:1.6;">
 		<h2>About these benchmarks</h2>
 		<p>
 			This page shows performance comparisons of different ECS implementations.<br>
 			<strong>Lower values mean better performance.</strong>
 			Times are reported in microseconds (µs) per operation, across varying entity counts.
 		</p>
-
-
 
 		<h3>Compared ECS libraries</h3>
 		<ul>
@@ -157,78 +165,26 @@
 			<a href="https://github.com/wagnerks/ecss_benchmarks" target="_blank">wagnerks/ecss_benchmarks</a>.
 		</p>
 	</div>
-	<button id="toggleScale">Switch to Log Scale</button>
+
+	<div id="controls">
+		<label for="entityCount">Entities:</label>
+		<input type="range" id="entityCount" min="0" step="1" value="0">
+		<div class="ticks" id="sliderTicks"></div>
+	</div>
 
 	<div id="charts"></div>
 
 	<script>
 		let charts = [];
-		let useLogScale = false;
-
-		function enhanceChart(chart) {
-			let hoverTimer = null;
-			let lastIndex = null;
-
-			chart.canvas.addEventListener('mousemove', (evt) => {
-				const { left, right, top, bottom } = chart.chartArea;
-
-				// ignore if mouse is outside the bars area
-				if (evt.offsetX < left || evt.offsetX > right || evt.offsetY < top || evt.offsetY > bottom) {
-					clearTimeout(hoverTimer);
-					hoverTimer = null;
-					lastIndex = null;
-					chart.options.scales.y.max = undefined;
-					chart.update(); // smooth transition
-					return;
-				}
-
-				const rect = chart.canvas.getBoundingClientRect();
-				const x = evt.clientX - rect.left;
-				let nearestIndex = -1;
-
-				chart.data.labels.forEach((label, idx) => {
-					let minBarLeft = Infinity;
-					let maxBarRight = -Infinity;
-					for (let dsIdx = 0; dsIdx < chart.data.datasets.length; dsIdx++) {
-						const meta = chart.getDatasetMeta(dsIdx);
-						const bar = meta.data[idx];
-						if (bar) {
-							const barLeft = bar.x - (bar.width || 20) / 2;
-							const barRight = bar.x + (bar.width || 20) / 2;
-							if (barLeft < minBarLeft) minBarLeft = barLeft;
-							if (barRight > maxBarRight) maxBarRight = barRight;
-						}
-					}
-					if (x >= minBarLeft && x <= maxBarRight) {
-						nearestIndex = idx;
-					}
-				});
-
-				if (nearestIndex !== lastIndex) {
-					lastIndex = nearestIndex;
-					clearTimeout(hoverTimer);
-
-					if (nearestIndex >= 0) {
-						hoverTimer = setTimeout(() => {
-							const values = chart.data.datasets.map(ds => ds.data[nearestIndex]).filter(v => v != null);
-							if (values.length > 0) {
-								const maxVal = Math.max(...values);
-								chart.options.scales.y.max = Math.ceil(maxVal * 1.1);
-								chart.update();
-							}
-						}, 250);
-					}
-				}
-			});
-
-			chart.canvas.addEventListener('mouseleave', () => {
-				clearTimeout(hoverTimer);
-				hoverTimer = null;
-				lastIndex = null;
-				chart.options.scales.y.max = undefined;
-				chart.update();
-			});
+		let allGroups = {};
+		let availableSizes = [];
+		let currentIndex = 0;
+		function formatNumberShort(n) {
+			if (n >= 1_000_000) return (n / 1_000_000) + "M";
+			if (n >= 1_000) return (n / 1_000) + "K";
+			return n.toString();
 		}
+
 		async function loadSummary(json) {
 			const ctx = json.context;
 
@@ -243,20 +199,16 @@
 				`Load avg: ${ctx.load_avg.join(", ")}`
 			];
 
-			// format caches
 			if (ctx.caches && ctx.caches.length > 0) {
 				sysInfo.push("Caches:");
 				ctx.caches.forEach(c => {
-					sysInfo.push(
-						`  L${c.level} ${c.type} – ${c.size / 1024} KB (shared by ${c.num_sharing})`
-					);
+					sysInfo.push(`  L${c.level} ${c.type} – ${c.size / 1024} KB (shared by ${c.num_sharing})`);
 				});
 			}
 
 			document.getElementById('system-info').innerHTML =
 				"<pre>" + sysInfo.join("\n") + "</pre>";
 
-			// only ecss with 1M
 			const oneM = {};
 			json.benchmarks.forEach(b => {
 				const match = b.name.match(/ecss.*?([a-zA-Z_]+)\/1000000/);
@@ -266,7 +218,6 @@
 				}
 			});
 
-			// build table-like block
 			let html = "<div class='result-table'>";
 			Object.entries(oneM).forEach(([test, val]) => {
 				html += `<div class="row"><span class="name">${test}</span><span class="value">${val} µs</span></div>`;
@@ -282,6 +233,8 @@
 			loadSummary(json);
 
 			const groups = {};
+			const sizesSet = new Set();
+
 			json.benchmarks.forEach(b => {
 				const match = b.name.match(/(ecss|entt).*?([a-zA-Z_]+)\/(\d+)/);
 				if (!match) return;
@@ -289,77 +242,88 @@
 				if (!groups[testName]) groups[testName] = {};
 				if (!groups[testName][size]) groups[testName][size] = {};
 				groups[testName][size][ecs] = b.cpu_time;
+				sizesSet.add(parseInt(size));
 			});
 
-			const chartsDiv = document.getElementById('charts');
+			allGroups = groups;
+			availableSizes = Array.from(sizesSet).sort((a, b) => a - b);
 
-			Object.entries(groups).forEach(([testName, sizes]) => {
+			const slider = document.getElementById('entityCount');
+			slider.max = availableSizes.length - 1;
+			slider.value = availableSizes.length - 1;
+			currentIndex = parseInt(slider.value, 10);
+
+			// render ticks
+			const ticksDiv = document.getElementById('sliderTicks');
+			ticksDiv.innerHTML = availableSizes.map(s => `<span>${formatNumberShort(s)}</span>`).join('');
+
+			renderCharts(availableSizes[currentIndex]);
+
+			slider.addEventListener('input', (e) => {
+				currentIndex = parseInt(e.target.value, 10);
+				renderCharts(availableSizes[currentIndex]);
+			});
+		}
+
+		function renderCharts(entityCount) {
+			const chartsDiv = document.getElementById('charts');
+			chartsDiv.innerHTML = '';
+			charts = [];
+
+			Object.entries(allGroups).forEach(([testName, sizes]) => {
+				if (!sizes[entityCount]) return;
+
 				const container = document.createElement('div');
 				container.className = 'chart-container';
 				const canvas = document.createElement('canvas');
 				container.appendChild(canvas);
 				chartsDiv.appendChild(container);
 
-				const labels = Object.keys(sizes).map(s => parseInt(s));
-				const ecssData = labels.map(s => sizes[s].ecss || null);
-				const enttData = labels.map(s => sizes[s].entt || null);
+				const ecssData = sizes[entityCount].ecss || null;
+				const enttData = sizes[entityCount].entt || null;
 
 				const chart = new Chart(canvas.getContext('2d'), {
+					type: 'bar',
 					data: {
-						labels,
-						datasets: [
-							{
-								type: 'bar',
-								label: 'ecss',
-								data: ecssData,
-								backgroundColor: 'rgba(145, 121, 201, 0.7)'
-							},
-							{
-								type: 'bar',
-								label: 'entt',
-								data: enttData,
-								backgroundColor: 'rgba(50, 128, 50, 0.7)'
-							}
-						]
+						labels: ['ecss', 'entt'],
+						datasets: [{
+							label: testName,
+							data: [ecssData, enttData],
+							backgroundColor: ['rgba(145, 121, 201, 0.7)', 'rgba(50, 128, 50, 0.7)']
+						}]
 					},
 					options: {
 						responsive: true,
 						maintainAspectRatio: false,
 						animation: {
-							duration: 500,   // 0.5s
-							easing: 'easeOutCubic'
+							duration: 0
 						},
 						plugins: {
 							title: {
 								display: true,
 								text: testName,
 								color: '#fff',
-								font: { size: 16 }
+								font: { size: 14 }
 							},
-							legend: {
-								labels: {
-									color: '#fff',
-									font: { size: 14 }
-								}
-							}
+							legend: { display: false }
 						},
 						scales: {
 							y: {
-								type: useLogScale ? 'logarithmic' : 'linear',
-								beginAtZero: false,
+								beginAtZero: true,
 								title: {
 									display: true,
-									text: 'Time (µs)',
+									text: 'µs',
 									color: '#fff',
 									font: { size: 14 }
 								},
 								ticks: {
 									color: '#fff',
 									font: { size: 12 },
-									count: 5
+									count: 5,
+									callback: (value) => formatNumberShort(value)
 								},
 								grid: { color: "#444" },
-								afterFit: (axis) => { axis.width = 90; } // px reserved for labels
+								afterFit: (axis) => { axis.width = 70; }
 							},
 							x: {
 								title: {
@@ -378,25 +342,11 @@
 					}
 				});
 
-				enhanceChart(chart);
 				charts.push(chart);
-
 			});
 		}
 
-
-
-		document.getElementById('toggleScale').addEventListener('click', () => {
-			useLogScale = !useLogScale;
-			charts.forEach(chart => {
-				chart.options.scales.y.type = useLogScale ? 'logarithmic' : 'linear';
-				chart.update();
-			});
-			document.getElementById('toggleScale').innerText = useLogScale ? "Switch to Linear Scale" : "Switch to Log Scale";
-		});
-
 		loadData();
-
 	</script>
 </body>
 
