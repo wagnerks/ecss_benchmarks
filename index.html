@@ -73,16 +73,21 @@
 	<script>
 		let charts = [];
 		let useLogScale = false;
-
+		
 		function enhanceChart(chart) {
+			let hoverTimer = null;
+			let lastIndex = null;
 
 			chart.canvas.addEventListener('mousemove', (evt) => {
 				const { left, right, top, bottom } = chart.chartArea;
 
 				// ignore if mouse is outside the bars area
 				if (evt.offsetX < left || evt.offsetX > right || evt.offsetY < top || evt.offsetY > bottom) {
+					clearTimeout(hoverTimer);
+					hoverTimer = null;
+					lastIndex = null;
 					chart.options.scales.y.max = undefined;
-					chart.update('active'); // smooth transition
+					chart.update(); // smooth transition
 					return;
 				}
 
@@ -108,21 +113,29 @@
 					}
 				});
 
-				if (nearestIndex >= 0) {
-					const label = chart.data.labels[nearestIndex];
-					const values = chart.data.datasets.map(ds => ds.data[nearestIndex]).filter(v => v != null);
-					if (values.length > 0) {
-						const maxVal = Math.max(...values);
-						chart.options.scales.y.beginAtZero = true;
-						chart.options.scales.y.max = Math.ceil(maxVal * 1.1); // 10% padding
-						chart.update();
+				if (nearestIndex !== lastIndex) {
+					lastIndex = nearestIndex;
+					clearTimeout(hoverTimer);
+
+					if (nearestIndex >= 0) {
+						hoverTimer = setTimeout(() => {
+							const values = chart.data.datasets.map(ds => ds.data[nearestIndex]).filter(v => v != null);
+							if (values.length > 0) {
+								const maxVal = Math.max(...values);
+								chart.options.scales.y.max = Math.ceil(maxVal * 1.1);
+								chart.update();
+							}
+						}, 250);
 					}
 				}
 			});
 
 			chart.canvas.addEventListener('mouseleave', () => {
-				chart.options.scales.y.max = undefined; // reset scale
-				chart.update(); // animate back
+				clearTimeout(hoverTimer);
+				hoverTimer = null;
+				lastIndex = null;
+				chart.options.scales.y.max = undefined;
+				chart.update();
 			});
 		}
 
@@ -162,13 +175,13 @@
 								type: 'bar',
 								label: 'ecss',
 								data: ecssData,
-								backgroundColor: 'rgb(78, 27, 201)'
+								backgroundColor: 'rgba(145, 121, 201, 0.7)'
 							},
 							{
 								type: 'bar',
 								label: 'entt',
 								data: enttData,
-								backgroundColor: 'rgba(0, 128, 0, 0.7)'
+								backgroundColor: 'rgba(50, 128, 50, 0.7)'
 							}
 						]
 					},
