@@ -23,11 +23,6 @@
 			color: #e0e0e0;
 		}
 
-		h1 {
-			padding: 20px;
-			text-align: center;
-		}
-
 		#charts {
 			display: grid;
 			grid-template-columns: repeat(5, 1fr);
@@ -47,34 +42,6 @@
 		canvas {
 			width: 100% !important;
 			height: 100% !important;
-		}
-
-		#controls {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			padding: 15px;
-			background: #1e1e1e;
-			border-bottom: 1px solid #333;
-			position: sticky;
-			top: 0;
-			z-index: 1000;
-		}
-
-		#entityCount {
-			width: 60%;
-			margin-top: 10px;
-		}
-
-		.ticks {
-			display: flex;
-			justify-content: space-between;
-			width: 60%;
-			font-size: 12px;
-			color: #aaa;
-			margin-top: 4px;
-			font-family: monospace;
 		}
 
 		.section-separator {
@@ -126,6 +93,42 @@
 			border-radius: 6px;
 			overflow-x: auto;
 		}
+
+		/* ===== Slider window styles ===== */
+		#entitySliderWrapper {
+			position: fixed;
+			bottom: 20px;
+			right: 20px;
+			background: rgba(30, 30, 30, 0.9);
+			border: 1px solid #444;
+			border-radius: 12px;
+			padding: 15px 20px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+			display: none;
+			z-index: 2000;
+			transition: opacity 0.3s;
+			opacity: 0.6;
+			width: 300px;
+			cursor: move;
+			/* показываем что можно таскать */
+		}
+
+		#entitySliderWrapper:hover {
+			opacity: 1;
+		}
+
+		#entityCount {
+			width: 100%;
+		}
+
+		#sliderTicks {
+			display: flex;
+			justify-content: space-between;
+			font-size: 12px;
+			color: #aaa;
+			font-family: monospace;
+			margin-top: 6px;
+		}
 	</style>
 </head>
 
@@ -155,7 +158,8 @@
 		<h3>Compared ECS libraries</h3>
 		<ul>
 			<li><a href="https://github.com/wagnerks/ecss" target="_blank">ecss</a> – sector/chunk based ECS (this repo)</li>
-			<li><a href="https://github.com/skypjack/entt" target="_blank">EnTT</a> – is a header-only, tiny and easy to use library for game programming and much more written in modern C++.</li>
+			<li><a href="https://github.com/skypjack/entt" target="_blank">EnTT</a> – is a header-only, tiny and easy to use
+				library for game programming and much more written in modern C++.</li>
 		</ul>
 
 		<p>
@@ -168,19 +172,23 @@
 		</p>
 	</div>
 
-	<div id="controls">
-		<label for="entityCount">Entities count in benchmark:</label>
+	<div id="charts"></div>
+
+	<!-- Slider panel -->
+	<div id="entitySliderWrapper">
+		<label for="entityCount" style="display:block; margin-bottom:6px; font-size:13px; color:#ccc;">
+			Entities count in benchmark:
+		</label>
 		<input type="range" id="entityCount" min="0" step="1" value="0">
 		<div class="ticks" id="sliderTicks"></div>
 	</div>
-
-	<div id="charts"></div>
 
 	<script>
 		let charts = [];
 		let allGroups = {};
 		let availableSizes = [];
 		let currentIndex = 0;
+
 		function formatNumberShort(n) {
 			if (n >= 1_000_000) return (n / 1_000_000) + "M";
 			if (n >= 1_000) return (n / 1_000) + "K";
@@ -255,7 +263,6 @@
 			slider.value = availableSizes.length - 1;
 			currentIndex = parseInt(slider.value, 10);
 
-			// render ticks
 			const ticksDiv = document.getElementById('sliderTicks');
 			ticksDiv.innerHTML = availableSizes.map(s => `<span>${formatNumberShort(s)}</span>`).join('');
 
@@ -312,12 +319,6 @@
 						scales: {
 							y: {
 								beginAtZero: true,
-								title: {
-									display: true,
-									text: 'µs',
-									color: '#fff',
-									font: { size: 14 }
-								},
 								ticks: {
 									color: '#fff',
 									font: { size: 12 },
@@ -328,12 +329,6 @@
 								afterFit: (axis) => { axis.width = 70; }
 							},
 							x: {
-								title: {
-									display: true,
-									text: 'Entities',
-									color: '#fff',
-									font: { size: 14 }
-								},
 								ticks: {
 									color: '#fff',
 									font: { size: 12 }
@@ -347,6 +342,51 @@
 				charts.push(chart);
 			});
 		}
+
+		// Show/hide slider window when charts visible
+		window.addEventListener('scroll', () => {
+			const chartsDiv = document.getElementById('charts');
+			const rect = chartsDiv.getBoundingClientRect();
+			const slider = document.getElementById('entitySliderWrapper');
+
+			if (rect.top < window.innerHeight && rect.bottom > 0) {
+				slider.style.display = 'block';
+			} else {
+				slider.style.display = 'none';
+			}
+		});
+
+		// Make slider draggable
+		(function makeDraggable() {
+			const sliderWindow = document.getElementById('entitySliderWrapper');
+			let offsetX, offsetY, isDragging = false;
+
+			sliderWindow.addEventListener('mousedown', (e) => {
+				if (e.target.tagName === 'INPUT' || e.target.id === 'sliderTicks') {
+					return;
+				}
+
+				isDragging = true;
+				const rect = sliderWindow.getBoundingClientRect();
+				offsetX = e.clientX - rect.left;
+				offsetY = e.clientY - rect.top;
+				document.body.style.userSelect = "none";
+			});
+
+			document.addEventListener('mousemove', (e) => {
+				if (!isDragging) return;
+				sliderWindow.style.left = (e.clientX - offsetX) + "px";
+				sliderWindow.style.top = (e.clientY - offsetY) + "px";
+				sliderWindow.style.right = "auto";
+				sliderWindow.style.bottom = "auto";
+				sliderWindow.style.position = "fixed";
+			});
+
+			document.addEventListener('mouseup', () => {
+				isDragging = false;
+				document.body.style.userSelect = "";
+			});
+		})();
 
 		loadData();
 	</script>
