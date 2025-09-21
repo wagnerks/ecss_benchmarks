@@ -3,9 +3,69 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>ecss vs entt benchmarks</title>
+	<title>ecss vs other ecs benchmarks</title>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<style>
+		.section-separator {
+			border: none;
+			height: 1px;
+			margin: 40px 0;
+			background: linear-gradient(to right, transparent, #444, transparent);
+			width: 100%;
+		}
+
+		.result-table {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
+			font-family: monospace;
+		}
+
+		.result-table .row {
+			display: flex;
+			justify-content: space-between;
+			padding: 2px 6px;
+			background: #1e1e1e;
+			border-radius: 4px;
+		}
+
+		.result-table .name {
+			color: #e0e0e0;
+		}
+
+		.result-table .value {
+			color: #82cfff;
+		}
+
+		.info-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 40px;
+			margin-bottom: 20px;
+		}
+
+		.info-grid h3 {
+			margin-top: 0;
+		}
+
+		#system-info pre,
+		#ecss-summary pre {
+			background: #1e1e1e;
+			padding: 10px;
+			border-radius: 6px;
+			overflow-x: auto;
+		}
+
+		a {
+			color: #4ea3ff;
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+			color: #82cfff;
+		}
+
 		body {
 			margin: 0;
 			font-family: sans-serif;
@@ -62,10 +122,41 @@
 </head>
 
 <body>
-	<h1>
-		<a href="https://github.com/wagnerks/ecss" target="_blank" style="color:#4ea3ff">ecss</a> Benchmarks
-	</h1>
+	<div style="padding:20px; margin:0 auto; line-height:1.6;">
+		<h2>ECSS Benchamrks</h2>
+		<div class="info-grid">
+			<div>
+				<h3>System Info</h3>
+				<div id="system-info"></div>
+			</div>
+			<div>
+				<h3>ecss – 1M entity results</h3>
+				<div id="ecss-summary"></div>
+			</div>
+		</div>
+	</div> <!-- closes your centered intro -->
+	<hr class="section-separator">
+	<div style="padding:20px; margin:0 auto; line-height:1.6;"> <!-- next block -->
+		<h2>About these benchmarks</h2>
+		<p>
+			This page shows performance comparisons of different ECS implementations.<br>
+			<strong>Lower values mean better performance.</strong>
+			Times are reported in microseconds (µs) per operation, across varying entity counts.
+		</p>
 
+
+
+		<h3>Compared ECS libraries</h3>
+		<ul>
+			<li><a href="https://github.com/wagnerks/ecss" target="_blank">ecss</a> – sector/chunk based ECS (this repo)</li>
+			<li><a href="https://github.com/skypjack/entt" target="_blank">EnTT</a> – widely used archetype-based ECS</li>
+		</ul>
+
+		<p>
+			Benchmark sources live here:
+			<a href="https://github.com/wagnerks/ecss_benchmarks" target="_blank">wagnerks/ecss_benchmarks</a>.
+		</p>
+	</div>
 	<button id="toggleScale">Switch to Log Scale</button>
 
 	<div id="charts"></div>
@@ -73,7 +164,7 @@
 	<script>
 		let charts = [];
 		let useLogScale = false;
-		
+
 		function enhanceChart(chart) {
 			let hoverTimer = null;
 			let lastIndex = null;
@@ -138,11 +229,57 @@
 				chart.update();
 			});
 		}
+		async function loadSummary(json) {
+			const ctx = json.context;
 
+			const sysInfo = [
+				`Date: ${ctx.date}`,
+				`Host: ${ctx.host_name}`,
+				`Executable: ${ctx.executable}`,
+				`CPU cores: ${ctx.num_cpus}`,
+				`Clock: ${ctx.mhz_per_cpu} MHz`,
+				`CPU scaling: ${ctx.cpu_scaling_enabled ? "enabled" : "disabled"}`,
+				`Build type: ${ctx.library_build_type}`,
+				`Load avg: ${ctx.load_avg.join(", ")}`
+			];
+
+			// format caches
+			if (ctx.caches && ctx.caches.length > 0) {
+				sysInfo.push("Caches:");
+				ctx.caches.forEach(c => {
+					sysInfo.push(
+						`  L${c.level} ${c.type} – ${c.size / 1024} KB (shared by ${c.num_sharing})`
+					);
+				});
+			}
+
+			document.getElementById('system-info').innerHTML =
+				"<pre>" + sysInfo.join("\n") + "</pre>";
+
+			// only ecss with 1M
+			const oneM = {};
+			json.benchmarks.forEach(b => {
+				const match = b.name.match(/ecss.*?([a-zA-Z_]+)\/1000000/);
+				if (match) {
+					const [, testName] = match;
+					oneM[testName] = Math.round(b.cpu_time);
+				}
+			});
+
+			// build table-like block
+			let html = "<div class='result-table'>";
+			Object.entries(oneM).forEach(([test, val]) => {
+				html += `<div class="row"><span class="name">${test}</span><span class="value">${val} µs</span></div>`;
+			});
+			html += "</div>";
+
+			document.getElementById("ecss-summary").innerHTML = html;
+		}
 
 		async function loadData() {
 			const response = await fetch('results.json');
 			const json = await response.json();
+			loadSummary(json);
 
 			const groups = {};
 			json.benchmarks.forEach(b => {
@@ -243,8 +380,11 @@
 
 				enhanceChart(chart);
 				charts.push(chart);
+
 			});
 		}
+
+
 
 		document.getElementById('toggleScale').addEventListener('click', () => {
 			useLogScale = !useLogScale;
@@ -256,6 +396,7 @@
 		});
 
 		loadData();
+
 	</script>
 </body>
 
