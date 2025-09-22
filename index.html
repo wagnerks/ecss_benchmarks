@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>ecss vs other ecs benchmarks</title>
+	<title>ecss benchmarks</title>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<style>
 		a {
@@ -94,22 +94,27 @@
 			overflow-x: auto;
 		}
 
-		/* ===== Slider window styles ===== */
-		#charts-wrapper {
-			position: relative;
-			padding: 20px;
+		.compare-slider {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 40px;
+			align-items: start;
+			padding: 10px;
+			max-width: 1920px;
+			margin: 0 auto;
+			box-sizing: border-box;
+		}
+
+		.compare-text {
+			line-height: 1.6;
 		}
 
 		#entitySliderWrapper {
-			position: absolute;
-			top: -60px;
-			right: 20px;
 			background: rgba(30, 30, 30, 0.6);
 			border-radius: 8px;
 			padding: 12px 16px;
 			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-			transition: opacity 0.3s, background 0.3s;
-			opacity: 0.6;
+			opacity: 0.9;
 		}
 
 		#entitySliderWrapper:hover {
@@ -125,7 +130,7 @@
 		}
 
 		#entityCount {
-			width: 200px;
+			width: 100%;
 		}
 
 		#sliderTicks {
@@ -140,9 +145,11 @@
 </head>
 
 <body>
-	<div style="padding:20px; max-width:1920px; margin:0 auto; line-height:1.6;">
-		<h2><a href="https://github.com/wagnerks/ecss_benchmarks" target="_blank">ECSS Benchmarks</a>, <a href="https://github.com/wagnerks/ecss" target="_blank">ecss</a> – sector/chunk based ECS (this repo)</h2>
-		
+	<div style="padding:10px; max-width:1920px; margin:0 auto; line-height:1.6;">
+		<h2><a href="https://github.com/wagnerks/ecss_benchmarks" target="_blank">ECSS Benchmarks</a>, <a
+				href="https://github.com/wagnerks/ecss" target="_blank">ecss</a> – sector/chunk based ECS
+		</h2>
+
 		<div class="info-grid">
 			<div>
 				<h3>System Info</h3>
@@ -154,30 +161,44 @@
 			</div>
 		</div>
 	</div>
+	
 	<hr class="section-separator">
-	<div style="padding:20px; max-width:1920px; margin:0 auto; line-height:1.6;">
-		<h3>Compared to:</h3>
-		<ul>
-			<li><a href="https://github.com/skypjack/entt" target="_blank">EnTT</a> – is a header-only, tiny and easy to use
-				library for game programming and much more written in modern C++.</li>
-		</ul>
-		<p>
-			<strong>Lower values mean better performance.</strong>
-			Times are reported in <strong>microseconds (µs) per operation</strong>, across varying entity counts.
-		</p>
-	</div>
-	<!-- Slider panel -->
-	<div id="charts-wrapper">
+
+	<div class="compare-slider">
+		<div class="compare-text">
+			<h3>Compared to:</h3>
+			<ul>
+				<li><a href="https://github.com/skypjack/entt" target="_blank">EnTT</a> – is a header-only, tiny and
+					easy to use library for game programming and much more written in modern C++.</li>
+				<li><a href="https://github.com/SanderMertens/flecs" target="_blank">Flecs</a> – Flecs is a fast and
+					lightweight Entity Component System that lets you build games and simulations with millions of
+					entities
+				</li>
+			</ul>
+			<p>
+				<strong>Lower values mean better performance.</strong><br>
+				Bars show relative performance with <strong>ecss = 1×</strong> as the baseline.
+				Other ecs are divided by the ecss result, so you can directly compare how
+				many times slower or faster they are. Absolute times in microseconds (µs) are
+				available in tooltips when hovering over a bar.
+			</p>
+		</div>
+
 		<div id="entitySliderWrapper">
-			<label for="entityCount">Entities count in benchmark:</label>
-			<input type="range" id="entityCount" min="0" step="1" value="0">
+			<label for="entityCount">
+				Entities count in benchmark: <span id="entityLabel"></span>
+			</label>
+			<input type="range" id="entityCount" min="0" step="1" value="0" onfocus="this.blur()">
 			<div class="ticks" id="sliderTicks"></div>
 		</div>
+	</div>
+
+	<div id="charts-wrapper">
 		<div id="charts"></div>
 	</div>
 
 	<script>
-		let charts = [];
+		let charts = {};
 		let allGroups = {};
 		let availableSizes = [];
 		let currentIndex = 0;
@@ -188,9 +209,13 @@
 			return n.toString();
 		}
 
+		function updateSliderLabel() {
+			document.getElementById("entityLabel").textContent =
+				formatNumberShort(availableSizes[currentIndex]);
+		}
+
 		async function loadSummary(json) {
 			const ctx = json.context;
-
 			const sysInfo = [
 				`Date: ${ctx.date}`,
 				`Host: ${ctx.host_name}`,
@@ -201,14 +226,12 @@
 				`Build type: ${ctx.library_build_type}`,
 				`Load avg: ${ctx.load_avg.join(", ")}`
 			];
-
 			if (ctx.caches && ctx.caches.length > 0) {
 				sysInfo.push("Caches:");
 				ctx.caches.forEach(c => {
 					sysInfo.push(`  L${c.level} ${c.type} – ${c.size / 1024} KB (shared by ${c.num_sharing})`);
 				});
 			}
-
 			document.getElementById('system-info').innerHTML =
 				"<pre>" + sysInfo.join("\n") + "</pre>";
 
@@ -226,12 +249,11 @@
 				html += `<div class="row"><span class="name">${test}</span><span class="value">${val} µs</span></div>`;
 			});
 			html += "</div>";
-
 			document.getElementById("ecss-summary").innerHTML = html;
 		}
 
 		async function loadData() {
-			const response = await fetch('results.json');
+			const response = await fetch('results.json?ts=' + Date.now());
 			const json = await response.json();
 			loadSummary(json);
 
@@ -239,9 +261,11 @@
 			const sizesSet = new Set();
 
 			json.benchmarks.forEach(b => {
-				const match = b.name.match(/(ecss|entt).*?([a-zA-Z_]+)\/(\d+)/);
+				const match = b.name.match(/(ecss|entt|flecs).*?([a-zA-Z_]+)\/(\d+)$/);
 				if (!match) return;
-				const [, ecs, testName, size] = match;
+				const [, ecs, rawName, size] = match;
+				const testName = rawName.replace(/[^a-zA-Z0-9_]/g, '');
+
 				if (!groups[testName]) groups[testName] = {};
 				if (!groups[testName][size]) groups[testName][size] = {};
 				groups[testName][size][ecs] = b.cpu_time;
@@ -260,17 +284,75 @@
 			ticksDiv.innerHTML = availableSizes.map(s => `<span>${formatNumberShort(s)}</span>`).join('');
 
 			renderCharts(availableSizes[currentIndex]);
+			updateSliderLabel();
 
 			slider.addEventListener('input', (e) => {
 				currentIndex = parseInt(e.target.value, 10);
-				renderCharts(availableSizes[currentIndex]);
+				updateChartsData(availableSizes[currentIndex]);
+				updateSliderLabel();
 			});
 		}
+
+		function prepareData(sizeData) {
+			const ecssData = sizeData.ecss || 1;
+			return [
+				1,
+				sizeData.entt ? sizeData.entt / ecssData : null,
+				sizeData.flecs ? sizeData.flecs / ecssData : null
+			];
+		}
+
+		function setCustomTicks(chart, newData) {
+			const ticks = newData.filter(v => v !== null);
+			chart.options.scales.y.afterBuildTicks = (axis) => {
+				axis.ticks = ticks.map(v => ({ value: v }));
+			};
+		}
+
+		const valueOnBars = {
+			id: 'valueOnBars',
+			afterDatasetsDraw(chart) {
+				const { ctx } = chart;
+				ctx.save();
+				chart.data.datasets.forEach((dataset, i) => {
+					const meta = chart.getDatasetMeta(i);
+					meta.data.forEach((bar, index) => {
+						const val = dataset.data[index];
+						if (val !== null && val !== undefined) {
+							const sizeData = allGroups[dataset.label][availableSizes[currentIndex]];
+							const ecssVal = sizeData.ecss || 1;
+							let absVal = null;
+							if (index === 0) absVal = ecssVal;
+							if (index === 1 && sizeData.entt) absVal = sizeData.entt;
+							if (index === 2 && sizeData.flecs) absVal = sizeData.flecs;
+
+							ctx.fillStyle = '#fff';
+							ctx.font = '12px sans-serif';
+							ctx.textAlign = 'center';
+							function formatRatio(val) {
+								if (Math.abs(val - Math.round(val)) < 1e-6) {
+									return Math.round(val).toString();
+								}
+								if (val < 5) {
+									return val.toFixed(2);
+								}
+								return Math.round(val).toString();
+							}
+
+							ctx.fillText(
+								formatRatio(val) + "×",
+								bar.x,
+								bar.y - 5
+							);
+						}
+					});
+				});
+			}
+		};
 
 		function renderCharts(entityCount) {
 			const chartsDiv = document.getElementById('charts');
 			chartsDiv.innerHTML = '';
-			charts = [];
 
 			Object.entries(allGroups).forEach(([testName, sizes]) => {
 				if (!sizes[entityCount]) return;
@@ -278,61 +360,118 @@
 				const container = document.createElement('div');
 				container.className = 'chart-container';
 				const canvas = document.createElement('canvas');
+				canvas.dataset.test = testName;
 				container.appendChild(canvas);
 				chartsDiv.appendChild(container);
 
-				const ecssData = sizes[entityCount].ecss || null;
-				const enttData = sizes[entityCount].entt || null;
-
+				const chartData = prepareData(sizes[entityCount]);
 				const chart = new Chart(canvas.getContext('2d'), {
 					type: 'bar',
 					data: {
-						labels: ['ecss', 'entt'],
+						labels: ['ecss', 'entt', 'flecs'],
 						datasets: [{
 							label: testName,
-							data: [ecssData, enttData],
-							backgroundColor: ['rgba(145, 121, 201, 0.7)', 'rgba(50, 128, 50, 0.7)']
+							data: chartData,
+							backgroundColor: [
+								'rgba(145, 121, 201, 0.7)',
+								'rgba(50, 128, 50, 0.7)',
+								'rgba(200, 100, 50, 0.7)'
+							],
 						}]
 					},
 					options: {
 						responsive: true,
 						maintainAspectRatio: false,
-						animation: {
-							duration: 0
-						},
+						animation: { duration: 0 },
 						plugins: {
+							legend: { display: false },
 							title: {
 								display: true,
 								text: testName,
 								color: '#fff',
 								font: { size: 14 }
 							},
-							legend: { display: false }
+							tooltip: {
+								displayColors: false,
+								callbacks: {
+									title: () => [],
+									label: (ctx) => {
+										const sizeData = allGroups[testName][entityCount];
+										const ecssVal = sizeData.ecss || 1;
+
+										if (ctx.dataIndex === 0)
+											return `${ecssVal.toFixed(0)} µs`;
+										if (ctx.dataIndex === 1 && sizeData.entt) {
+											const ratio = sizeData.entt / ecssVal;
+											return `${sizeData.entt.toFixed(0)} µs`;
+										}
+										if (ctx.dataIndex === 2 && sizeData.flecs) {
+											const ratio = sizeData.flecs / ecssVal;
+											return `${sizeData.flecs.toFixed(0)} µs`;
+										}
+										return "";
+									}
+								}
+							}
 						},
 						scales: {
 							y: {
-								beginAtZero: true,
+								type: 'linear',
 								ticks: {
+									display: false,
 									color: '#fff',
 									font: { size: 12 },
-									count: 5,
-									callback: (value) => formatNumberShort(value)
+									callback: (value) => value.toFixed(2) + "×"
 								},
-								grid: { color: "#444" },
-								afterFit: (axis) => { axis.width = 70; }
+								grid: {
+									display: false,
+									color: "#444",
+									drawOnChartArea: true
+								},
+								afterBuildTicks: (axis) => {
+									const chartData = axis.chart.data.datasets[0].data;
+									const ticks = chartData.filter(v => v !== null);
+									axis.ticks = ticks.map(v => ({ value: v }));
+								},
+								border: {
+									display: false,
+									color: "#888"
+								}
 							},
 							x: {
 								ticks: {
 									color: '#fff',
 									font: { size: 12 }
 								},
-								grid: { color: "#444" }
+								grid: {
+									display: false,
+									color: "#444"
+								},
+								border: {
+									color: "#888"
+								}
 							}
 						}
-					}
+					},
+					plugins: [valueOnBars]
 				});
 
-				charts.push(chart);
+				setCustomTicks(chart, chartData);
+				charts[testName] = chart;
+			});
+		}
+
+		function updateChartsData(entityCount) {
+			Object.entries(allGroups).forEach(([testName, sizes]) => {
+				if (!sizes[entityCount]) return;
+				const chart = charts[testName];
+				if (!chart) return;
+
+				const newData = prepareData(sizes[entityCount]);
+				chart.data.datasets[0].data = newData;
+				setCustomTicks(chart, newData);
+
+				chart.update();
 			});
 		}
 
