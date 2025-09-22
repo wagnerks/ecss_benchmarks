@@ -25,7 +25,7 @@
 
 		#charts {
 			display: grid;
-			grid-template-columns: repeat(5, 1fr);
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 			grid-gap: 20px;
 			padding: 20px;
 			box-sizing: border-box;
@@ -36,7 +36,7 @@
 			border-radius: 8px;
 			padding: 10px;
 			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
-			height: 300px;
+			height: 200px;
 		}
 
 		canvas {
@@ -95,46 +95,54 @@
 		}
 
 		/* ===== Slider window styles ===== */
+		#charts-wrapper {
+			position: relative;
+			padding: 20px;
+		}
+
 		#entitySliderWrapper {
-			position: fixed;
-			bottom: 20px;
+			position: absolute;
+			top: -60px;
 			right: 20px;
-			background: rgba(30, 30, 30, 0.9);
-			border: 1px solid #444;
-			border-radius: 12px;
-			padding: 15px 20px;
-			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-			display: none;
-			z-index: 2000;
-			transition: opacity 0.3s;
+			background: rgba(30, 30, 30, 0.6);
+			border-radius: 8px;
+			padding: 12px 16px;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+			transition: opacity 0.3s, background 0.3s;
 			opacity: 0.6;
-			width: 300px;
-			cursor: move;
-			/* показываем что можно таскать */
 		}
 
 		#entitySliderWrapper:hover {
+			background: rgba(30, 30, 30, 0.9);
 			opacity: 1;
 		}
 
+		#entitySliderWrapper label {
+			font-size: 13px;
+			margin-bottom: 6px;
+			display: block;
+			color: #ddd;
+		}
+
 		#entityCount {
-			width: 100%;
+			width: 200px;
 		}
 
 		#sliderTicks {
 			display: flex;
 			justify-content: space-between;
-			font-size: 12px;
+			margin-top: 4px;
+			font-size: 11px;
 			color: #aaa;
 			font-family: monospace;
-			margin-top: 6px;
 		}
 	</style>
 </head>
 
 <body>
 	<div style="padding:20px; max-width:1920px; margin:0 auto; line-height:1.6;">
-		<h2>ECSS Benchmarks</h2>
+		<h2><a href="https://github.com/wagnerks/ecss_benchmarks" target="_blank">ECSS Benchmarks</a>, <a href="https://github.com/wagnerks/ecss" target="_blank">ecss</a> – sector/chunk based ECS (this repo)</h2>
+		
 		<div class="info-grid">
 			<div>
 				<h3>System Info</h3>
@@ -146,41 +154,26 @@
 			</div>
 		</div>
 	</div>
-
 	<hr class="section-separator">
-
 	<div style="padding:20px; max-width:1920px; margin:0 auto; line-height:1.6;">
-		<h2>About these benchmarks:</h2>
-		<p>
-			Times are reported in microseconds (µs) per operation, across varying entity counts.
-		</p>
-
-		<h3>Compared ECS libraries</h3>
+		<h3>Compared to:</h3>
 		<ul>
-			<li><a href="https://github.com/wagnerks/ecss" target="_blank">ecss</a> – sector/chunk based ECS (this repo)</li>
 			<li><a href="https://github.com/skypjack/entt" target="_blank">EnTT</a> – is a header-only, tiny and easy to use
 				library for game programming and much more written in modern C++.</li>
 		</ul>
-
-		<p>
-			Benchmark sources live here:
-			<a href="https://github.com/wagnerks/ecss_benchmarks" target="_blank">wagnerks/ecss_benchmarks</a>.
-		</p>
 		<p>
 			<strong>Lower values mean better performance.</strong>
 			Times are reported in <strong>microseconds (µs) per operation</strong>, across varying entity counts.
 		</p>
 	</div>
-
-	<div id="charts"></div>
-
 	<!-- Slider panel -->
-	<div id="entitySliderWrapper">
-		<label for="entityCount" style="display:block; margin-bottom:6px; font-size:13px; color:#ccc;">
-			Entities count in benchmark:
-		</label>
-		<input type="range" id="entityCount" min="0" step="1" value="0">
-		<div class="ticks" id="sliderTicks"></div>
+	<div id="charts-wrapper">
+		<div id="entitySliderWrapper">
+			<label for="entityCount">Entities count in benchmark:</label>
+			<input type="range" id="entityCount" min="0" step="1" value="0">
+			<div class="ticks" id="sliderTicks"></div>
+		</div>
+		<div id="charts"></div>
 	</div>
 
 	<script>
@@ -342,51 +335,6 @@
 				charts.push(chart);
 			});
 		}
-
-		// Show/hide slider window when charts visible
-		window.addEventListener('scroll', () => {
-			const chartsDiv = document.getElementById('charts');
-			const rect = chartsDiv.getBoundingClientRect();
-			const slider = document.getElementById('entitySliderWrapper');
-
-			if (rect.top < window.innerHeight && rect.bottom > 0) {
-				slider.style.display = 'block';
-			} else {
-				slider.style.display = 'none';
-			}
-		});
-
-		// Make slider draggable
-		(function makeDraggable() {
-			const sliderWindow = document.getElementById('entitySliderWrapper');
-			let offsetX, offsetY, isDragging = false;
-
-			sliderWindow.addEventListener('mousedown', (e) => {
-				if (e.target.tagName === 'INPUT' || e.target.id === 'sliderTicks') {
-					return;
-				}
-
-				isDragging = true;
-				const rect = sliderWindow.getBoundingClientRect();
-				offsetX = e.clientX - rect.left;
-				offsetY = e.clientY - rect.top;
-				document.body.style.userSelect = "none";
-			});
-
-			document.addEventListener('mousemove', (e) => {
-				if (!isDragging) return;
-				sliderWindow.style.left = (e.clientX - offsetX) + "px";
-				sliderWindow.style.top = (e.clientY - offsetY) + "px";
-				sliderWindow.style.right = "auto";
-				sliderWindow.style.bottom = "auto";
-				sliderWindow.style.position = "fixed";
-			});
-
-			document.addEventListener('mouseup', () => {
-				isDragging = false;
-				document.body.style.userSelect = "";
-			});
-		})();
 
 		loadData();
 	</script>
