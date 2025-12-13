@@ -106,24 +106,34 @@ namespace vec {
         }
     }
 
-    // Destroy entities (clear vector)
+    // Destroy entities - mark as deleted (similar to ECS soft-delete)
+    // Note: vector clear() is O(1) which isn't comparable to ECS destroy
+    // So we simulate per-entity deletion by zeroing (touching each element)
     static void destroy_entities(benchmark::State& state) {
+        std::vector<Entity> entities;
+        entities.reserve(state.range(0));
+        for (int i = 0; i < state.range(0); ++i) {
+            entities.push_back(Entity{
+                static_cast<uint32_t>(i),
+                Position{0.f, 0.f, 0.f},
+                Velocity{0.f, 0.f, 0.f},
+                true, true
+            });
+        }
         for (auto _ : state) {
+            // Simulate destroy by marking each entity as deleted
+            for (auto& e : entities) {
+                e.hasPos = false;
+                e.hasVel = false;
+            }
+            benchmark::ClobberMemory();
+            // Reset for next iteration
             state.PauseTiming();
-            std::vector<Entity> entities;
-            entities.reserve(state.range(0));
-            for (int i = 0; i < state.range(0); ++i) {
-                entities.push_back(Entity{
-                    static_cast<uint32_t>(i),
-                    Position{0.f, 0.f, 0.f},
-                    Velocity{0.f, 0.f, 0.f},
-                    true, true
-                });
+            for (auto& e : entities) {
+                e.hasPos = true;
+                e.hasVel = true;
             }
             state.ResumeTiming();
-            entities.clear();
-            entities.shrink_to_fit(); // Actually deallocate
-            benchmark::ClobberMemory();
         }
     }
 
