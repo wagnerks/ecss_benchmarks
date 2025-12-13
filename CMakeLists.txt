@@ -56,11 +56,25 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(flecs)
 
 # -------------------------------------
+# Build type (must be before targets)
+# -------------------------------------
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "" FORCE)
+endif()
+
+# -------------------------------------
 # Benchmarks
 # -------------------------------------
 file(GLOB_RECURSE BENCH_SOURCES CONFIGURE_DEPENDS src/*.cpp)
 
 add_executable(ecss_benchmarks ${BENCH_SOURCES})
+
+# Optimization flags (applied to ecss_benchmarks target)
+if(MSVC)
+    target_compile_options(ecss_benchmarks PRIVATE /O2 /DNDEBUG /fp:fast)
+else()
+    target_compile_options(ecss_benchmarks PRIVATE -O3 -DNDEBUG -march=native -ffast-math)
+endif()
 
 target_compile_definitions(ecss_benchmarks PRIVATE
     FLECS_NO_LOG
@@ -68,7 +82,6 @@ target_compile_definitions(ecss_benchmarks PRIVATE
     FLECS_NO_THREADS
     FLECS_NO_READER_WRITER_LOCKS
 )
-
 
 # Link libraries (static flecs target is flecs_static -> alias flecs::flecs_static)
 # Previous link to flecs::flecs failed because shared lib disabled.
@@ -93,9 +106,3 @@ add_custom_target(run_benchmarks_json
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Run benchmarks and output JSON results"
 )
-
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING "" FORCE)
-endif()
-
-add_compile_options(-O3 -DNDEBUG -march=native)

@@ -9,6 +9,167 @@
 struct Position { float x, y, z; };
 struct Velocity { float vx, vy, vz; };
 
+// Combined entity for vector baseline (AoS layout)
+struct Entity {
+    uint32_t id;
+    Position pos;
+    Velocity vel;
+    bool hasPos = false;
+    bool hasVel = false;
+};
+
+// ================= std::vector baseline benchmarks =====================
+namespace vec {
+    // Insert Position component (push_back to vector)
+    static void insert(benchmark::State& state) {
+        for (auto _ : state) {
+            std::vector<Position> positions;
+            positions.reserve(state.range(0));
+            for (int i = 0; i < state.range(0); ++i) {
+                positions.push_back(Position{42.f, 42.f, 42.f});
+            }
+            benchmark::DoNotOptimize(positions.data());
+        }
+    }
+
+    // Create entities only (reserve + resize, no components)
+    static void create_entities(benchmark::State& state) {
+        for (auto _ : state) {
+            std::vector<uint32_t> ids;
+            ids.reserve(state.range(0));
+            for (int i = 0; i < state.range(0); ++i) {
+                ids.push_back(static_cast<uint32_t>(i));
+            }
+            benchmark::DoNotOptimize(ids.data());
+        }
+    }
+
+    // Add Position component with varying values
+    static void add_int_component(benchmark::State& state) {
+        for (auto _ : state) {
+            std::vector<Position> positions;
+            positions.reserve(state.range(0));
+            for (int i = 0; i < state.range(0); ++i) {
+                positions.push_back(Position{(float)i, (float)i + 1.f, (float)i + 2.f});
+            }
+            benchmark::DoNotOptimize(positions.data());
+        }
+    }
+
+    // Add Velocity component
+    static void add_struct_component(benchmark::State& state) {
+        for (auto _ : state) {
+            std::vector<Velocity> velocities;
+            velocities.reserve(state.range(0));
+            for (int i = 0; i < state.range(0); ++i) {
+                velocities.push_back(Velocity{(float)i, (float)i * 2.f, (float)i * 3.f});
+            }
+            benchmark::DoNotOptimize(velocities.data());
+        }
+    }
+
+    // Insert two components (Entity with Position + Velocity)
+    static void grouped_insert(benchmark::State& state) {
+        for (auto _ : state) {
+            std::vector<Entity> entities;
+            entities.reserve(state.range(0));
+            for (int i = 0; i < state.range(0); ++i) {
+                entities.push_back(Entity{
+                    static_cast<uint32_t>(i),
+                    Position{7.f, 8.f, 9.f},
+                    Velocity{1.f, 2.f, 3.f},
+                    true, true
+                });
+            }
+            benchmark::DoNotOptimize(entities.data());
+        }
+    }
+
+    // hasComponent equivalent (check bool flag)
+    static void has_component(benchmark::State& state) {
+        std::vector<Entity> entities;
+        entities.reserve(state.range(0));
+        for (int i = 0; i < state.range(0); ++i) {
+            entities.push_back(Entity{
+                static_cast<uint32_t>(i),
+                Position{1.f, 2.f, 3.f},
+                Velocity{0.f, 0.f, 0.f},
+                true, false
+            });
+        }
+        for (auto _ : state) {
+            size_t count = 0;
+            for (const auto& e : entities) {
+                if (e.hasPos) ++count;
+            }
+            benchmark::DoNotOptimize(count);
+        }
+    }
+
+    // Destroy entities (clear vector)
+    static void destroy_entities(benchmark::State& state) {
+        for (auto _ : state) {
+            state.PauseTiming();
+            std::vector<Entity> entities;
+            entities.reserve(state.range(0));
+            for (int i = 0; i < state.range(0); ++i) {
+                entities.push_back(Entity{
+                    static_cast<uint32_t>(i),
+                    Position{0.f, 0.f, 0.f},
+                    Velocity{0.f, 0.f, 0.f},
+                    true, true
+                });
+            }
+            state.ResumeTiming();
+            entities.clear();
+            entities.shrink_to_fit(); // Actually deallocate
+            benchmark::ClobberMemory();
+        }
+    }
+
+    // Iterate single component (vector<Position>)
+    static void iter_single_component(benchmark::State& state) {
+        std::vector<Position> positions;
+        positions.reserve(state.range(0));
+        for (int i = 0; i < state.range(0); ++i) {
+            positions.push_back(Position{(float)i, (float)i + 1.f, (float)i + 2.f});
+        }
+        for (auto _ : state) {
+            float sum = 0.f;
+            for (const auto& p : positions) {
+                sum += p.x + p.y + p.z;
+            }
+            benchmark::DoNotOptimize(sum);
+        }
+    }
+
+    // Iterate multi component (Entity with Position + Velocity - AoS)
+    static void iter_grouped_multi(benchmark::State& state) {
+        std::vector<Entity> entities;
+        entities.reserve(state.range(0));
+        for (int i = 0; i < state.range(0); ++i) {
+            entities.push_back(Entity{
+                static_cast<uint32_t>(i),
+                Position{(float)i, (float)i * 2.f, (float)i * 3.f},
+                Velocity{(float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f},
+                true, true
+            });
+        }
+        for (auto _ : state) {
+            float accum = 0.f;
+            for (const auto& e : entities) {
+                accum += e.pos.x + e.pos.y + e.pos.z + e.vel.vx + e.vel.vy + e.vel.vz;
+            }
+            benchmark::DoNotOptimize(accum);
+        }
+    }
+
+    // Iterate separate (same as grouped for vector - no difference)
+    static void iter_separate_multi(benchmark::State& state) {
+        iter_grouped_multi(state);
+    }
+}
+
 namespace ecss
 {
     // Insert Position component per entity (constant values)
@@ -390,9 +551,12 @@ namespace flecs {
                 ids.emplace_back(world.entity().set<Position>({0.f,0.f,0.f}).set<Velocity>({0.f,0.f,0.f}));
             }
             state.ResumeTiming();
+            // Use defer for batch deletion (similar to ecss/entt batch APIs)
+            world.defer_begin();
             for (auto &e : ids) {
                 e.destruct();
             }
+            world.defer_end();
             benchmark::ClobberMemory();
         }
     }
@@ -445,21 +609,22 @@ namespace flecs {
 #define BENCH_ONE(ECS, FUNC, ARG) \
     BENCHMARK(ECS::FUNC)->Name(TO_FUNC_NAME(FUNC, ECS))->Unit(benchmark::TimeUnit::kMicrosecond)->Arg(ARG);
 
-#define REGISTER_BENCHMARK(ecs0, ecs1, ecs2, FUNC) \
+#define REGISTER_BENCHMARK(ecs0, ecs1, ecs2, ecs3, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs0, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs1, FUNC) \
-    BENCH_ARGS(BENCH_ONE, ecs2, FUNC)
+    BENCH_ARGS(BENCH_ONE, ecs2, FUNC) \
+    BENCH_ARGS(BENCH_ONE, ecs3, FUNC)
 
-REGISTER_BENCHMARK(ecss, entt, flecs, insert)
-REGISTER_BENCHMARK(ecss, entt, flecs, create_entities)
-REGISTER_BENCHMARK(ecss, entt, flecs, add_int_component)
-REGISTER_BENCHMARK(ecss, entt, flecs, add_struct_component)
-REGISTER_BENCHMARK(ecss, entt, flecs, grouped_insert)
-REGISTER_BENCHMARK(ecss, entt, flecs, has_component)
-REGISTER_BENCHMARK(ecss, entt, flecs, destroy_entities)
-REGISTER_BENCHMARK(ecss, entt, flecs, iter_single_component)
-REGISTER_BENCHMARK(ecss, entt, flecs, iter_grouped_multi)
-REGISTER_BENCHMARK(ecss, entt, flecs, iter_separate_multi)
+REGISTER_BENCHMARK(vec, ecss, entt, flecs, insert)
+REGISTER_BENCHMARK(vec, ecss, entt, flecs, create_entities)
+REGISTER_BENCHMARK(vec, ecss, entt, flecs, add_int_component)
+REGISTER_BENCHMARK(vec, ecss, entt, flecs, add_struct_component)
+REGISTER_BENCHMARK(vec, ecss, entt, flecs, grouped_insert)
+REGISTER_BENCHMARK(vec, ecss, entt, flecs, has_component)
+REGISTER_BENCHMARK(vec, ecss, entt, flecs, destroy_entities)
+REGISTER_BENCHMARK(vec, ecss, entt, flecs, iter_single_component)
+REGISTER_BENCHMARK(vec, ecss, entt, flecs, iter_grouped_multi)
+REGISTER_BENCHMARK(vec, ecss, entt, flecs, iter_separate_multi)
 
 #if ECSS_SINGLE_BENCHS
 BENCHMARK(ecss::insert)->Name(TO_FUNC_NAME(insert, ecss))->Unit(benchmark::TimeUnit::kMillisecond)->Arg(100'000'000);
