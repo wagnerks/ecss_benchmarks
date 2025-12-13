@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  benchmark:
+  benchmark-linux:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -28,12 +28,67 @@ jobs:
       - name: Run benchmarks
         run: |
           mkdir -p benchmark-results
-          ./build/ecss_benchmarks --benchmark_format=json --benchmark_out=benchmark-results/results.json
+          ./build/ecss_benchmarks --benchmark_format=json --benchmark_out=benchmark-results/results-gcc.json
 
-      - name: Upload results to gh-pages
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-gcc
+          path: benchmark-results/results-gcc.json
+
+  benchmark-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release -j $env:NUMBER_OF_PROCESSORS
+
+      - name: Run benchmarks
+        run: |
+          mkdir -p benchmark-results
+          ./build/Release/ecss_benchmarks.exe --benchmark_format=json --benchmark_out=benchmark-results/results-msvc.json
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-msvc
+          path: benchmark-results/results-msvc.json
+
+  publish:
+    needs: [benchmark-linux, benchmark-windows]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Download GCC results
+        uses: actions/download-artifact@v4
+        with:
+          name: benchmark-gcc
+          path: gh-pages
+
+      - name: Download MSVC results
+        uses: actions/download-artifact@v4
+        with:
+          name: benchmark-msvc
+          path: gh-pages
+
+      - name: Keep legacy results.json (copy from gcc)
+        run: cp gh-pages/results-gcc.json gh-pages/results.json
+
+      - name: Upload to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: benchmark-results
+          publish_dir: gh-pages
           publish_branch: gh-pages
-          keep_files: true   # сохраняет историю JSON
