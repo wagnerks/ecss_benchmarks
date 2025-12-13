@@ -153,28 +153,27 @@ namespace vec {
         }
     }
 
-    // Iterate multi component (Entity with Position + Velocity - AoS)
+    // Iterate multi component (SoA - two separate arrays for fair comparison)
     static void iter_grouped_multi(benchmark::State& state) {
-        std::vector<Entity> entities;
-        entities.reserve(state.range(0));
+        std::vector<Position> positions;
+        std::vector<Velocity> velocities;
+        positions.reserve(state.range(0));
+        velocities.reserve(state.range(0));
         for (int i = 0; i < state.range(0); ++i) {
-            entities.push_back(Entity{
-                static_cast<uint32_t>(i),
-                Position{(float)i, (float)i * 2.f, (float)i * 3.f},
-                Velocity{(float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f},
-                true, true
-            });
+            positions.push_back(Position{(float)i, (float)i * 2.f, (float)i * 3.f});
+            velocities.push_back(Velocity{(float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f});
         }
         for (auto _ : state) {
             float accum = 0.f;
-            for (const auto& e : entities) {
-                accum += e.pos.x + e.pos.y + e.pos.z + e.vel.vx + e.vel.vy + e.vel.vz;
+            for (size_t i = 0; i < positions.size(); ++i) {
+                accum += positions[i].x + positions[i].y + positions[i].z +
+                         velocities[i].vx + velocities[i].vy + velocities[i].vz;
             }
             benchmark::DoNotOptimize(accum);
         }
     }
 
-    // Iterate separate (same as grouped for vector - no difference)
+    // Iterate separate (same as grouped for vector SoA)
     static void iter_separate_multi(benchmark::State& state) {
         iter_grouped_multi(state);
     }
@@ -183,20 +182,19 @@ namespace vec {
     static void iter_sparse_multi(benchmark::State& state) {
         const int n = state.range(0);
         const int intersection = n / 50; // 2% intersection
-        std::vector<Entity> entities;
-        entities.reserve(intersection);
+        std::vector<Position> positions;
+        std::vector<Velocity> velocities;
+        positions.reserve(intersection);
+        velocities.reserve(intersection);
         for (int i = 0; i < intersection; ++i) {
-            entities.push_back(Entity{
-                static_cast<uint32_t>(i),
-                Position{(float)i, (float)i * 2.f, (float)i * 3.f},
-                Velocity{(float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f},
-                true, true
-            });
+            positions.push_back(Position{(float)i, (float)i * 2.f, (float)i * 3.f});
+            velocities.push_back(Velocity{(float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f});
         }
         for (auto _ : state) {
             float accum = 0.f;
-            for (const auto& e : entities) {
-                accum += e.pos.x + e.pos.y + e.pos.z + e.vel.vx + e.vel.vy + e.vel.vz;
+            for (size_t i = 0; i < positions.size(); ++i) {
+                accum += positions[i].x + positions[i].y + positions[i].z +
+                         velocities[i].vx + velocities[i].vy + velocities[i].vz;
             }
             benchmark::DoNotOptimize(accum);
         }
