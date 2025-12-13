@@ -178,6 +178,29 @@ namespace vec {
     static void iter_separate_multi(benchmark::State& state) {
         iter_grouped_multi(state);
     }
+
+    // Iterate sparse intersection - N entities with A, N with B, but only 1/50 have both
+    static void iter_sparse_multi(benchmark::State& state) {
+        const int n = state.range(0);
+        const int intersection = n / 50; // 2% intersection
+        std::vector<Entity> entities;
+        entities.reserve(intersection);
+        for (int i = 0; i < intersection; ++i) {
+            entities.push_back(Entity{
+                static_cast<uint32_t>(i),
+                Position{(float)i, (float)i * 2.f, (float)i * 3.f},
+                Velocity{(float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f},
+                true, true
+            });
+        }
+        for (auto _ : state) {
+            float accum = 0.f;
+            for (const auto& e : entities) {
+                accum += e.pos.x + e.pos.y + e.pos.z + e.vel.vx + e.vel.vy + e.vel.vz;
+            }
+            benchmark::DoNotOptimize(accum);
+        }
+    }
 }
 
 namespace ecss
@@ -341,6 +364,37 @@ namespace ecss
             benchmark::DoNotOptimize(accum);
         }
     }
+
+    // Iterate sparse intersection - N entities with Position, N/50 with Velocity
+    // Use Velocity as primary (smaller set) for efficient iteration
+    static void iter_sparse_multi(benchmark::State& state) {
+        using Reg = ecss::Registry<false>;
+        Reg reg;
+        const int n = state.range(0);
+        const int step = 50; // every 50th entity has both components
+        
+        // Create N entities with Position
+        for (int i = 0; i < n; ++i) {
+            auto e = reg.takeEntity();
+            reg.addComponent<Position>(e, Position{ (float)i, (float)i + 1.f, (float)i + 2.f });
+        }
+        // Add Velocity only to every 50th entity (2% intersection)
+        for (int i = 0; i < n; i += step) {
+            reg.addComponent<Velocity>(ecss::EntityId(i), Velocity{ (float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f });
+        }
+        
+        // Velocity first = iterate smaller set (n/50), lookup Position
+        auto view = reg.view<Velocity, Position>();
+        for (auto _ : state) {
+            float accum = 0.f;
+            for (auto [eid, vptr, pptr] : view) {
+                if (pptr && vptr) {
+                    accum += pptr->x + pptr->y + pptr->z + vptr->vx + vptr->vy + vptr->vz;
+                }
+            }
+            benchmark::DoNotOptimize(accum);
+        }
+    }
 }
 
 namespace entt
@@ -478,6 +532,37 @@ namespace entt
     static void iter_separate_multi(benchmark::State& state) {
         iter_grouped_multi(state); // identical in entt
     }
+
+    // Iterate sparse intersection - N entities with Position, N with Velocity, only 1/50 have both
+    static void iter_sparse_multi(benchmark::State& state) {
+        big_registry reg;
+        const int n = state.range(0);
+        const int step = 50;
+        
+        // Create N entities with Position
+        for (int i = 0; i < n; ++i) {
+            auto e = reg.create();
+            reg.emplace<Position>(e, Position{ (float)i, (float)i + 1.f, (float)i + 2.f });
+        }
+        // Add Velocity only to every 50th entity
+        int idx = 0;
+        for (auto e : reg.view<Position>()) {
+            if (idx % step == 0) {
+                reg.emplace<Velocity>(e, Velocity{ (float)idx * 0.5f, (float)idx * 0.25f, (float)idx * 0.125f });
+            }
+            ++idx;
+        }
+        
+        auto view = reg.view<Position, Velocity>();
+        for (auto _ : state) {
+            float accum = 0.f;
+            for (auto entity : view) {
+                auto [pos, vel] = view.get<Position, Velocity>(entity);
+                accum += pos.x + pos.y + pos.z + vel.vx + vel.vy + vel.vz;
+            }
+            benchmark::DoNotOptimize(accum);
+        }
+    }
 }
 
 // ================= Flecs benchmarks =====================
@@ -604,6 +689,33 @@ namespace flecs {
     static void iter_separate_multi(benchmark::State &state) { // same layout for flecs
         iter_grouped_multi(state);
     }
+
+    // Iterate sparse intersection - N entities with Position, N with Velocity, only 1/50 have both
+    static void iter_sparse_multi(benchmark::State &state) {
+        flecs_world world;
+        world.component<Position>();
+        world.component<Velocity>();
+        const int n = state.range(0);
+        const int step = 50;
+        
+        // Create N entities with Position
+        std::vector<flecs::entity> entities;
+        entities.reserve(n);
+        for (int i = 0; i < n; ++i) {
+            entities.push_back(world.entity().set<Position>({(float)i, (float)i + 1.f, (float)i + 2.f}));
+        }
+        // Add Velocity only to every 50th entity
+        for (int i = 0; i < n; i += step) {
+            entities[i].set<Velocity>({(float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f});
+        }
+        
+        flecs::query<Position, Velocity> q = world.query<Position, Velocity>();
+        for (auto _ : state) {
+            float accum = 0.f;
+            q.each([&](Position &p, Velocity &v){ accum += p.x + p.y + p.z + v.vx + v.vy + v.vz; });
+            benchmark::DoNotOptimize(accum);
+        }
+    }
 }
 
 #define TO_FUNC_NAME(funcName, ecs) #ecs "....................." #funcName
@@ -635,6 +747,7 @@ REGISTER_BENCHMARK(vec, ecss, entt, flecs, destroy_entities)
 REGISTER_BENCHMARK(vec, ecss, entt, flecs, iter_single_component)
 REGISTER_BENCHMARK(vec, ecss, entt, flecs, iter_grouped_multi)
 REGISTER_BENCHMARK(vec, ecss, entt, flecs, iter_separate_multi)
+REGISTER_BENCHMARK(vec, ecss, entt, flecs, iter_sparse_multi)
 
 #if ECSS_SINGLE_BENCHS
 BENCHMARK(ecss::insert)->Name(TO_FUNC_NAME(insert, ecss))->Unit(benchmark::TimeUnit::kMillisecond)->Arg(100'000'000);
