@@ -168,6 +168,7 @@
 		<div class="compare-text">
 			<h3>Compared to:</h3>
 			<ul>
+				<li><strong>vec</strong> – raw std::vector baseline (theoretical minimum)</li>
 				<li><a href="https://github.com/skypjack/entt" target="_blank">EnTT</a> – is a header-only, tiny and
 					easy to use library for game programming and much more written in modern C++.</li>
 				<li><a href="https://github.com/SanderMertens/flecs" target="_blank">Flecs</a> – Flecs is a fast and
@@ -178,7 +179,7 @@
 			<p>
 				<strong>Lower values mean better performance.</strong><br>
 				Bars show relative performance with <strong>ecss = 1×</strong> as the baseline.
-				Other ecs are divided by the ecss result, so you can directly compare how
+				Other libraries are divided by the ecss result, so you can directly compare how
 				many times slower or faster they are. Absolute times in microseconds (µs) are
 				available in tooltips when hovering over a bar.
 			</p>
@@ -261,7 +262,7 @@
 			const sizesSet = new Set();
 
 			json.benchmarks.forEach(b => {
-				const match = b.name.match(/(ecss|entt|flecs).*?([a-zA-Z_]+)\/(\d+)$/);
+				const match = b.name.match(/(vec|ecss|entt|flecs).*?([a-zA-Z_]+)\/(\d+)$/);
 				if (!match) return;
 				const [, ecs, rawName, size] = match;
 				const testName = rawName.replace(/[^a-zA-Z0-9_]/g, '');
@@ -296,6 +297,7 @@
 		function prepareData(sizeData) {
 			const ecssData = sizeData.ecss || 1;
 			return [
+				sizeData.vec ? sizeData.vec / ecssData : null,
 				1,
 				sizeData.entt ? sizeData.entt / ecssData : null,
 				sizeData.flecs ? sizeData.flecs / ecssData : null
@@ -319,13 +321,6 @@
 					meta.data.forEach((bar, index) => {
 						const val = dataset.data[index];
 						if (val !== null && val !== undefined) {
-							const sizeData = allGroups[dataset.label][availableSizes[currentIndex]];
-							const ecssVal = sizeData.ecss || 1;
-							let absVal = null;
-							if (index === 0) absVal = ecssVal;
-							if (index === 1 && sizeData.entt) absVal = sizeData.entt;
-							if (index === 2 && sizeData.flecs) absVal = sizeData.flecs;
-
 							ctx.fillStyle = '#fff';
 							ctx.font = '12px sans-serif';
 							ctx.textAlign = 'center';
@@ -368,11 +363,12 @@
 				const chart = new Chart(canvas.getContext('2d'), {
 					type: 'bar',
 					data: {
-						labels: ['ecss', 'entt', 'flecs'],
+						labels: ['vec', 'ecss', 'entt', 'flecs'],
 						datasets: [{
 							label: testName,
 							data: chartData,
 							backgroundColor: [
+								'rgba(100, 100, 100, 0.7)',
 								'rgba(145, 121, 201, 0.7)',
 								'rgba(50, 128, 50, 0.7)',
 								'rgba(200, 100, 50, 0.7)'
@@ -399,16 +395,14 @@
 										const sizeData = allGroups[testName][entityCount];
 										const ecssVal = sizeData.ecss || 1;
 
-										if (ctx.dataIndex === 0)
+										if (ctx.dataIndex === 0 && sizeData.vec)
+											return `${sizeData.vec.toFixed(0)} µs`;
+										if (ctx.dataIndex === 1)
 											return `${ecssVal.toFixed(0)} µs`;
-										if (ctx.dataIndex === 1 && sizeData.entt) {
-											const ratio = sizeData.entt / ecssVal;
+										if (ctx.dataIndex === 2 && sizeData.entt)
 											return `${sizeData.entt.toFixed(0)} µs`;
-										}
-										if (ctx.dataIndex === 2 && sizeData.flecs) {
-											const ratio = sizeData.flecs / ecssVal;
+										if (ctx.dataIndex === 3 && sizeData.flecs)
 											return `${sizeData.flecs.toFixed(0)} µs`;
-										}
 										return "";
 									}
 								}
