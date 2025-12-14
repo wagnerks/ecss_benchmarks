@@ -921,12 +921,22 @@ namespace flecs {
 #define BENCH_ONE(ECS, FUNC, ARG) \
     BENCHMARK(ECS::FUNC)->Name(TO_FUNC_NAME(FUNC, ECS))->Unit(benchmark::TimeUnit::kMicrosecond)->Arg(ARG)->MinTime(0.3);
 
+// MSVC has issues with std::atomic::wait()/notify_all() used in ecss_ts (thread-safe version)
+// Skip ecss_ts benchmarks on Windows to avoid hangs/crashes
+#ifdef _MSC_VER
+#define REGISTER_BENCHMARK(ecs0, ecs1, ecs2, ecs3, ecs4, FUNC) \
+    BENCH_ARGS(BENCH_ONE, ecs0, FUNC) \
+    BENCH_ARGS(BENCH_ONE, ecs1, FUNC) \
+    BENCH_ARGS(BENCH_ONE, ecs3, FUNC) \
+    BENCH_ARGS(BENCH_ONE, ecs4, FUNC)
+#else
 #define REGISTER_BENCHMARK(ecs0, ecs1, ecs2, ecs3, ecs4, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs0, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs1, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs2, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs3, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs4, FUNC)
+#endif
 
 REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, insert)
 REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, create_entities)
