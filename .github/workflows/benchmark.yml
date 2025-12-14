@@ -26,7 +26,7 @@ jobs:
         run: cmake --build build -j$(nproc)
 
       - name: Run benchmarks
-        timeout-minutes: 30
+        timeout-minutes: 10
         run: |
           mkdir -p benchmark-results
           ./build/ecss_benchmarks --benchmark_format=json --benchmark_out=benchmark-results/results-gcc.json --benchmark_min_time=0.1s
