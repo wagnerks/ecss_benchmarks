@@ -384,11 +384,11 @@
 		}
 
 		function getResultsUrl(compiler) {
-			// Try compiler-specific file first, fallback to legacy results.json
+			// Use minified JSON files for faster loading
 			if (compiler === 'gcc') {
-				return 'results-gcc.json';
+				return 'results-gcc.min.json';
 			} else if (compiler === 'msvc') {
-				return 'results-msvc.json';
+				return 'results-msvc.min.json';
 			}
 			return 'results.json';
 		}
