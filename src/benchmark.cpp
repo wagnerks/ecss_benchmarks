@@ -306,7 +306,7 @@ namespace ecss
     }
 
     // ================= Iteration Benchmarks =====================
-    // Iterate a single Position component array
+    // Iterate a single Position component array (using SIMD-optimized each())
     static void iter_single_component(benchmark::State& state) {
         using Reg = ecss::Registry<false>;
         Reg reg;
@@ -317,14 +317,14 @@ namespace ecss
         auto view = reg.view<Position>();
         for (auto _ : state) {
             float sum = 0.f;
-            for (auto [eid, p] : view) {
-                sum += p->x + p->y + p->z;
-            }
+            view.each([&](Position& p) {
+                sum += p.x + p.y + p.z;
+            });
             benchmark::DoNotOptimize(sum);
         }
     }
 
-    // Iterate multiple components that are grouped (Position + Velocity)
+    // Iterate multiple components that are grouped (using SIMD-optimized each())
     static void iter_grouped_multi(benchmark::State& state) {
         using Reg = ecss::Registry<false>;
         Reg reg;
@@ -337,17 +337,17 @@ namespace ecss
         auto view = reg.view<Position, Velocity>();
         for (auto _ : state) {
             float accum = 0.f;
-            for (auto [eid, pptr, vptr] : view) {
-                accum += pptr->x + pptr->y + pptr->z + vptr->vx + vptr->vy + vptr->vz;
-            }
+            view.each([&](Position& p, Velocity& v) {
+                accum += p.x + p.y + p.z + v.vx + v.vy + v.vz;
+            });
             benchmark::DoNotOptimize(accum);
         }
     }
 
-    // Iterate multiple components in separate arrays (no grouping call)
+    // Iterate multiple components in separate arrays (using each() with fallback)
     static void iter_separate_multi(benchmark::State& state) {
         using Reg = ecss::Registry<false>;
-        Reg reg; // no grouping
+        Reg reg; // no grouping - will use fallback path
         for (int i = 0; i < state.range(0); ++i) {
             auto e = reg.takeEntity();
             reg.addComponent<Position>(e, Position{ (float)i, (float)i + 1.f, (float)i + 2.f });
@@ -356,15 +356,16 @@ namespace ecss
         auto view = reg.view<Position, Velocity>();
         for (auto _ : state) {
             float accum = 0.f;
-            for (auto [eid, pptr, vptr] : view) {
-                accum += pptr->x + pptr->y + pptr->z + vptr->vx + vptr->vy + vptr->vz;
-            }
+            view.each([&](Position& p, Velocity& v) {
+                accum += p.x + p.y + p.z + v.vx + v.vy + v.vz;
+            });
             benchmark::DoNotOptimize(accum);
         }
     }
 
     // Iterate sparse intersection - N entities with Position, N/50 with Velocity
     // Use Velocity as primary (smaller set) for efficient iteration
+    // NOTE: NOT grouped - uses random lookup, cache unfriendly
     static void iter_sparse_multi(benchmark::State& state) {
         using Reg = ecss::Registry<false>;
         Reg reg;
@@ -385,11 +386,202 @@ namespace ecss
         auto view = reg.view<Velocity, Position>();
         for (auto _ : state) {
             float accum = 0.f;
-            for (auto [eid, vptr, pptr] : view) {
-                if (pptr && vptr) {
-                    accum += pptr->x + pptr->y + pptr->z + vptr->vx + vptr->vy + vptr->vz;
-                }
+            view.each([&](Velocity& v, Position& p) {
+                accum += p.x + p.y + p.z + v.vx + v.vy + v.vz;
+            });
+            benchmark::DoNotOptimize(accum);
+        }
+    }
+
+}
+
+// ================= Thread-safe ecss benchmarks =====================
+namespace ecss_ts
+{
+    // Insert Position component per entity (constant values)
+    static void insert(benchmark::State& state) {
+        using Reg = ecss::Registry<true>;
+        for (auto _ : state) {
+            Reg reg;
+            for (int i = 0; i < state.range(0); ++i) {
+                auto e = reg.takeEntity();
+                reg.addComponent<Position>(e, Position{ 42.f, 42.f, 42.f });
             }
+        }
+    }
+
+    // Create entities only (no components)
+    static void create_entities(benchmark::State& state) {
+        using Reg = ecss::Registry<true>;
+        for (auto _ : state) {
+            Reg reg;
+            for (int i = 0; i < state.range(0); ++i) {
+                benchmark::DoNotOptimize(reg.takeEntity());
+            }
+        }
+    }
+
+    // Add Position component with varying values
+    static void add_int_component(benchmark::State& state) {
+        using Reg = ecss::Registry<true>;
+        for (auto _ : state) {
+            Reg reg;
+            for (int i = 0; i < state.range(0); ++i) {
+                auto e = reg.takeEntity();
+                reg.addComponent<Position>(e, Position{ (float)i, (float)i + 1.f, (float)i + 2.f });
+            }
+        }
+    }
+
+    // Add Velocity component
+    static void add_struct_component(benchmark::State& state) {
+        using Reg = ecss::Registry<true>;
+        for (auto _ : state) {
+            Reg reg;
+            for (int i = 0; i < state.range(0); ++i) {
+                auto e = reg.takeEntity();
+                reg.addComponent<Velocity>(e, Velocity{ (float)i, (float)i * 2.f, (float)i * 3.f });
+            }
+        }
+    }
+
+    // Grouped array registration then insert two components (Position + Velocity)
+    static void grouped_insert(benchmark::State& state) {
+        using Reg = ecss::Registry<true>;
+        for (auto _ : state) {
+            Reg reg;
+            reg.registerArray<Position, Velocity>();
+            for (int i = 0; i < state.range(0); ++i) {
+                auto e = reg.takeEntity();
+                reg.addComponent<Position>(e, Position{ 7.f, 8.f, 9.f });
+                reg.addComponent<Velocity>(e, Velocity{ 1.f, 2.f, 3.f });
+            }
+        }
+    }
+
+    // hasComponent over existing components (Position)
+    static void has_component(benchmark::State& state) {
+        using Reg = ecss::Registry<true>;
+        using ecss::EntityId;
+        Reg reg;
+        std::vector<EntityId> ids;
+        ids.reserve(state.range(0));
+        for (int i = 0; i < state.range(0); ++i) {
+            auto e = reg.takeEntity();
+            reg.addComponent<Position>(e, Position{1.f,2.f,3.f});
+            ids.push_back(e);
+        }
+        for (auto _ : state) {
+            size_t count = 0;
+            for (auto id : ids) {
+                if (reg.hasComponent<Position>(id)) ++count;
+            }
+            benchmark::DoNotOptimize(count);
+        }
+    }
+
+    // Batch destroy entities (Position + Velocity)
+    static void destroy_entities(benchmark::State& state) {
+        using Reg = ecss::Registry<true>;
+        using ecss::EntityId;
+        for (auto _ : state) {
+            state.PauseTiming();
+            Reg reg;
+            std::vector<EntityId> ids; ids.reserve(state.range(0));
+            for (int i = 0; i < state.range(0); ++i) {
+                auto e = reg.takeEntity();
+                reg.addComponent<Position>(e, Position{ 0.f,0.f,0.f });
+                reg.addComponent<Velocity>(e, Velocity{ 0.f,0.f,0.f });
+                ids.push_back(e);
+            }
+            state.ResumeTiming();
+            reg.destroyEntities(ids);
+            benchmark::ClobberMemory();
+        }
+    }
+
+    // ================= Iteration Benchmarks =====================
+    // Iterate a single Position component array
+    static void iter_single_component(benchmark::State& state) {
+        using Reg = ecss::Registry<true>;
+        Reg reg;
+        for (int i = 0; i < state.range(0); ++i) {
+            auto e = reg.takeEntity();
+            reg.addComponent<Position>(e, Position{ (float)i, (float)i + 1.f, (float)i + 2.f });
+        }
+        auto view = reg.view<Position>();
+        for (auto _ : state) {
+            float sum = 0.f;
+            view.each([&](Position& p) {
+                sum += p.x + p.y + p.z;
+            });
+            benchmark::DoNotOptimize(sum);
+        }
+    }
+
+    // Iterate multiple components that are grouped
+    static void iter_grouped_multi(benchmark::State& state) {
+        using Reg = ecss::Registry<true>;
+        Reg reg;
+        reg.registerArray<Position, Velocity>();
+        for (int i = 0; i < state.range(0); ++i) {
+            auto e = reg.takeEntity();
+            reg.addComponent<Position>(e, Position{ (float)i, (float)i * 2.f, (float)i * 3.f });
+            reg.addComponent<Velocity>(e, Velocity{ (float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f });
+        }
+        auto view = reg.view<Position, Velocity>();
+        for (auto _ : state) {
+            float accum = 0.f;
+            view.each([&](Position& p, Velocity& v) {
+                accum += p.x + p.y + p.z + v.vx + v.vy + v.vz;
+            });
+            benchmark::DoNotOptimize(accum);
+        }
+    }
+
+    // Iterate multiple components in separate arrays
+    static void iter_separate_multi(benchmark::State& state) {
+        using Reg = ecss::Registry<true>;
+        Reg reg; // no grouping - will use fallback path
+        for (int i = 0; i < state.range(0); ++i) {
+            auto e = reg.takeEntity();
+            reg.addComponent<Position>(e, Position{ (float)i, (float)i + 1.f, (float)i + 2.f });
+            reg.addComponent<Velocity>(e, Velocity{ (float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f });
+        }
+        auto view = reg.view<Position, Velocity>();
+        for (auto _ : state) {
+            float accum = 0.f;
+            view.each([&](Position& p, Velocity& v) {
+                accum += p.x + p.y + p.z + v.vx + v.vy + v.vz;
+            });
+            benchmark::DoNotOptimize(accum);
+        }
+    }
+
+    // Iterate sparse intersection - N entities with Position, N/50 with Velocity
+    static void iter_sparse_multi(benchmark::State& state) {
+        using Reg = ecss::Registry<true>;
+        Reg reg;
+        const int n = state.range(0);
+        const int step = 50;
+        
+        // Create N entities with Position
+        for (int i = 0; i < n; ++i) {
+            auto e = reg.takeEntity();
+            reg.addComponent<Position>(e, Position{ (float)i, (float)i + 1.f, (float)i + 2.f });
+        }
+        // Add Velocity only to every 50th entity (2% intersection)
+        for (int i = 0; i < n; i += step) {
+            reg.addComponent<Velocity>(ecss::EntityId(i), Velocity{ (float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f });
+        }
+        
+        // Velocity first = iterate smaller set (n/50), lookup Position
+        auto view = reg.view<Velocity, Position>();
+        for (auto _ : state) {
+            float accum = 0.f;
+            view.each([&](Velocity& v, Position& p) {
+                accum += p.x + p.y + p.z + v.vx + v.vy + v.vz;
+            });
             benchmark::DoNotOptimize(accum);
         }
     }
@@ -729,23 +921,24 @@ namespace flecs {
 #define BENCH_ONE(ECS, FUNC, ARG, ITERS) \
     BENCHMARK(ECS::FUNC)->Name(TO_FUNC_NAME(FUNC, ECS))->Unit(benchmark::TimeUnit::kMicrosecond)->Arg(ARG)->Iterations(ITERS);
 
-#define REGISTER_BENCHMARK(ecs0, ecs1, ecs2, ecs3, FUNC) \
+#define REGISTER_BENCHMARK(ecs0, ecs1, ecs2, ecs3, ecs4, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs0, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs1, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs2, FUNC) \
-    BENCH_ARGS(BENCH_ONE, ecs3, FUNC)
+    BENCH_ARGS(BENCH_ONE, ecs3, FUNC) \
+    BENCH_ARGS(BENCH_ONE, ecs4, FUNC)
 
-REGISTER_BENCHMARK(vec, ecss, entt, flecs, insert)
-REGISTER_BENCHMARK(vec, ecss, entt, flecs, create_entities)
-REGISTER_BENCHMARK(vec, ecss, entt, flecs, add_int_component)
-REGISTER_BENCHMARK(vec, ecss, entt, flecs, add_struct_component)
-REGISTER_BENCHMARK(vec, ecss, entt, flecs, grouped_insert)
-REGISTER_BENCHMARK(vec, ecss, entt, flecs, has_component)
-REGISTER_BENCHMARK(vec, ecss, entt, flecs, destroy_entities)
-REGISTER_BENCHMARK(vec, ecss, entt, flecs, iter_single_component)
-REGISTER_BENCHMARK(vec, ecss, entt, flecs, iter_grouped_multi)
-REGISTER_BENCHMARK(vec, ecss, entt, flecs, iter_separate_multi)
-REGISTER_BENCHMARK(vec, ecss, entt, flecs, iter_sparse_multi)
+REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, insert)
+REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, create_entities)
+REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, add_int_component)
+REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, add_struct_component)
+REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, grouped_insert)
+REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, has_component)
+REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, destroy_entities)
+REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, iter_single_component)
+REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, iter_grouped_multi)
+REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, iter_separate_multi)
+REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, iter_sparse_multi)
 
 #if ECSS_SINGLE_BENCHS
 BENCHMARK(ecss::insert)->Name(TO_FUNC_NAME(insert, ecss))->Unit(benchmark::TimeUnit::kMillisecond)->Arg(100'000'000);
