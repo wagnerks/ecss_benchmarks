@@ -29,7 +29,7 @@ jobs:
         timeout-minutes: 30
         run: |
           mkdir -p benchmark-results
-          ./build/ecss_benchmarks --benchmark_format=json --benchmark_out=benchmark-results/results-gcc.json
+          ./build/ecss_benchmarks --benchmark_format=json --benchmark_out=benchmark-results/results-gcc.json --benchmark_min_time=0.1s
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -56,7 +56,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path benchmark-results
-          .\build\Release\ecss_benchmarks.exe --benchmark_format=json --benchmark_out=benchmark-results\results-msvc.json
+          .\build\Release\ecss_benchmarks.exe --benchmark_format=json --benchmark_out=benchmark-results\results-msvc.json --benchmark_min_time=0.1s
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
