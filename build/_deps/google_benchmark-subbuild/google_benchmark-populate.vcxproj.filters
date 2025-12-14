@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\e82cc71476672d8d1fbbf17cb435a5f0\google_benchmark-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\e909f1cc4325624accc5f0001ba215cb\google_benchmark-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\google_benchmark-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F58E4B82-C7F6-3201-B211-72D961F7606C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

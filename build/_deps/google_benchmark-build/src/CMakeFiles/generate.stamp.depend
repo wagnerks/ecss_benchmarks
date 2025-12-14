@@ -1,0 +1,9 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.31/Modules/BasicConfigVersion-SameMajorVersion.cmake.in
+C:/Program Files/CMake/share/cmake-3.31/Modules/CMakePackageConfigHelpers.cmake
+C:/Program Files/CMake/share/cmake-3.31/Modules/GNUInstallDirs.cmake
+C:/Program Files/CMake/share/cmake-3.31/Modules/WriteBasicConfigVersionFile.cmake
+D:/projects/pet/ecss_benchmarks/build/CMakeFiles/cmake.verify_globs
+D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-src/cmake/Config.cmake.in
+D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-src/cmake/benchmark.pc.in
+D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-src/src/CMakeLists.txt

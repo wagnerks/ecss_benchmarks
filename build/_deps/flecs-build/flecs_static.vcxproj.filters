@@ -1,0 +1,942 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\alerts.c">
+      <Filter>src\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\app.c">
+      <Filter>src\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\doc.c">
+      <Filter>src\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\flecs_cpp.c">
+      <Filter>src\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\http.c">
+      <Filter>src\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\journal.c">
+      <Filter>src\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\json\deserialize.c">
+      <Filter>src\addons\json</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\json\deserialize_value.c">
+      <Filter>src\addons\json</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\json\json.c">
+      <Filter>src\addons\json</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\json\serialize_entity.c">
+      <Filter>src\addons\json</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\json\serialize_field_info.c">
+      <Filter>src\addons\json</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\json\serialize_iter.c">
+      <Filter>src\addons\json</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\json\serialize_iter_result.c">
+      <Filter>src\addons\json</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\json\serialize_iter_result_query.c">
+      <Filter>src\addons\json</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\json\serialize_iter_result_table.c">
+      <Filter>src\addons\json</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\json\serialize_query_info.c">
+      <Filter>src\addons\json</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\json\serialize_type_info.c">
+      <Filter>src\addons\json</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\json\serialize_value.c">
+      <Filter>src\addons\json</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\json\serialize_world.c">
+      <Filter>src\addons\json</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\log.c">
+      <Filter>src\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\meta\c_utils.c">
+      <Filter>src\addons\meta</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\meta\cursor.c">
+      <Filter>src\addons\meta</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\meta\definitions.c">
+      <Filter>src\addons\meta</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\meta\meta.c">
+      <Filter>src\addons\meta</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\meta\rtt_lifecycle.c">
+      <Filter>src\addons\meta</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\meta\serializer.c">
+      <Filter>src\addons\meta</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\meta\type_support\array_ts.c">
+      <Filter>src\addons\meta\type_support</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\meta\type_support\enum_ts.c">
+      <Filter>src\addons\meta\type_support</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\meta\type_support\opaque_ts.c">
+      <Filter>src\addons\meta\type_support</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\meta\type_support\primitive_ts.c">
+      <Filter>src\addons\meta\type_support</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\meta\type_support\struct_ts.c">
+      <Filter>src\addons\meta\type_support</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\meta\type_support\units_ts.c">
+      <Filter>src\addons\meta\type_support</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\metrics.c">
+      <Filter>src\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\module.c">
+      <Filter>src\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\os_api_impl\os_api_impl.c">
+      <Filter>src\addons\os_api_impl</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\parser\tokenizer.c">
+      <Filter>src\addons\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\pipeline\frame.c">
+      <Filter>src\addons\pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\pipeline\pipeline.c">
+      <Filter>src\addons\pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\pipeline\worker.c">
+      <Filter>src\addons\pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\query_dsl\parser.c">
+      <Filter>src\addons\query_dsl</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\rest.c">
+      <Filter>src\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\ast.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\expr\ast.c">
+      <Filter>src\addons\script\expr</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\expr\parser.c">
+      <Filter>src\addons\script\expr</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\expr\stack.c">
+      <Filter>src\addons\script\expr</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\expr\util.c">
+      <Filter>src\addons\script\expr</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\expr\visit_eval.c">
+      <Filter>src\addons\script\expr</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\expr\visit_fold.c">
+      <Filter>src\addons\script\expr</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\expr\visit_free.c">
+      <Filter>src\addons\script\expr</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\expr\visit_to_str.c">
+      <Filter>src\addons\script\expr</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\expr\visit_type.c">
+      <Filter>src\addons\script\expr</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\function.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\functions_builtin.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\functions_math.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\parser.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\script.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\serialize.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\template.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\vars.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\visit.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\visit_check.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\visit_eval.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\visit_free.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\script\visit_to_str.c">
+      <Filter>src\addons\script</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\stats\monitor.c">
+      <Filter>src\addons\stats</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\stats\pipeline_monitor.c">
+      <Filter>src\addons\stats</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\stats\stats.c">
+      <Filter>src\addons\stats</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\stats\system_monitor.c">
+      <Filter>src\addons\stats</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\stats\world_monitor.c">
+      <Filter>src\addons\stats</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\stats\world_summary.c">
+      <Filter>src\addons\stats</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\system\system.c">
+      <Filter>src\addons\system</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\timer.c">
+      <Filter>src\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\addons\units.c">
+      <Filter>src\addons</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\bootstrap.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\commands.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\component_actions.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\datastructures\allocator.c">
+      <Filter>src\datastructures</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\datastructures\bitset.c">
+      <Filter>src\datastructures</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\datastructures\block_allocator.c">
+      <Filter>src\datastructures</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\datastructures\hash.c">
+      <Filter>src\datastructures</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\datastructures\hashmap.c">
+      <Filter>src\datastructures</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\datastructures\map.c">
+      <Filter>src\datastructures</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\datastructures\name_index.c">
+      <Filter>src\datastructures</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\datastructures\sparse.c">
+      <Filter>src\datastructures</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\datastructures\stack_allocator.c">
+      <Filter>src\datastructures</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\datastructures\strbuf.c">
+      <Filter>src\datastructures</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\datastructures\vec.c">
+      <Filter>src\datastructures</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\each.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\entity.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\entity_name.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\id.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\instantiate.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\iter.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\misc.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\observable.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\observer.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\on_delete.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\os_api.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\poly.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\api.c">
+      <Filter>src\query</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\cache\cache.c">
+      <Filter>src\query\cache</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\cache\cache_iter.c">
+      <Filter>src\query\cache</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\cache\change_detection.c">
+      <Filter>src\query\cache</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\cache\group.c">
+      <Filter>src\query\cache</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\cache\match.c">
+      <Filter>src\query\cache</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\cache\order_by.c">
+      <Filter>src\query\cache</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\compiler\compiler.c">
+      <Filter>src\query\compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\compiler\compiler_term.c">
+      <Filter>src\query\compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\engine\eval.c">
+      <Filter>src\query\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\engine\eval_iter.c">
+      <Filter>src\query\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\engine\eval_member.c">
+      <Filter>src\query\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\engine\eval_pred.c">
+      <Filter>src\query\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\engine\eval_sparse.c">
+      <Filter>src\query\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\engine\eval_toggle.c">
+      <Filter>src\query\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\engine\eval_trav.c">
+      <Filter>src\query\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\engine\eval_up.c">
+      <Filter>src\query\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\engine\eval_utils.c">
+      <Filter>src\query\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\engine\trav_cache.c">
+      <Filter>src\query\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\engine\trav_down_cache.c">
+      <Filter>src\query\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\engine\trav_up_cache.c">
+      <Filter>src\query\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\engine\trivial_iter.c">
+      <Filter>src\query\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\util.c">
+      <Filter>src\query</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\query\validator.c">
+      <Filter>src\query</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\ref.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\search.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\stage.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\storage\component_index.c">
+      <Filter>src\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\storage\entity_index.c">
+      <Filter>src\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\storage\ordered_children.c">
+      <Filter>src\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\storage\sparse_storage.c">
+      <Filter>src\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\storage\table.c">
+      <Filter>src\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\storage\table_cache.c">
+      <Filter>src\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\storage\table_graph.c">
+      <Filter>src\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\type_info.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\value.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\src\world.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\alerts.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\app.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\c_types.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\component.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\delegate.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\entity.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\entity_view.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\field.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\flecs.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\impl\field.hpp">
+      <Filter>include\flecs\addons\cpp\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\impl\iter.hpp">
+      <Filter>include\flecs\addons\cpp\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\impl\world.hpp">
+      <Filter>include\flecs\addons\cpp\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\iter.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\lifecycle_traits.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\log.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\alerts\builder.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\alerts</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\alerts\builder_i.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\alerts</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\alerts\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\alerts</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\alerts\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\alerts</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\app\builder.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\app</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\app\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\app</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\component\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\component</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\doc\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\doc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\doc\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\doc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\entity\builder.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\entity\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\enum\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\enum</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\event\builder.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\event</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\event\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\event</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\event\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\event</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\id\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\id</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\id\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\id</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\json\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\json</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\meta\cursor.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\meta</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\meta\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\meta</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\meta\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\meta</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\meta\opaque.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\meta</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\metrics\builder.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\metrics</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\metrics\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\metrics</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\metrics\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\metrics</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\module\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\module</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\observer\builder.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\observer</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\observer\builder_i.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\observer</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\observer\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\observer</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\observer\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\observer</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\pipeline\builder.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\pipeline\builder_i.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\pipeline\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\pipeline\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\query\builder.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\query</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\query\builder_i.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\query</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\query\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\query</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\query\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\query</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\rest\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\rest</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\rest\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\rest</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\script\builder.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\script</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\script\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\script</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\script\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\script</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\stats\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\stats</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\stats\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\stats</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\system\builder.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\system</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\system\builder_i.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\system</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\system\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\system</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\system\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\system</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\term\builder_i.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\term</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\term\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\term</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\term\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\term</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\timer\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\timer\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\units\decl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\units</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\mixins\units\impl.hpp">
+      <Filter>include\flecs\addons\cpp\mixins\units</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\pair.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\ref.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\table.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\type.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\utils\array.hpp">
+      <Filter>include\flecs\addons\cpp\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\utils\builder.hpp">
+      <Filter>include\flecs\addons\cpp\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\utils\enum.hpp">
+      <Filter>include\flecs\addons\cpp\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\utils\function_traits.hpp">
+      <Filter>include\flecs\addons\cpp\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\utils\iterable.hpp">
+      <Filter>include\flecs\addons\cpp\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\utils\node_builder.hpp">
+      <Filter>include\flecs\addons\cpp\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\utils\signature.hpp">
+      <Filter>include\flecs\addons\cpp\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\utils\string.hpp">
+      <Filter>include\flecs\addons\cpp\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\utils\stringstream.hpp">
+      <Filter>include\flecs\addons\cpp\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\utils\utils.hpp">
+      <Filter>include\flecs\addons\cpp\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\cpp\world.hpp">
+      <Filter>include\flecs\addons\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\deprecated.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\doc.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\flecs_c.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\flecs_cpp.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\http.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\json.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\log.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\meta.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\meta_c.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\metrics.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\module.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\os_api_impl.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\pipeline.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\rest.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\script.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\script_math.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\stats.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\system.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\timer.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\addons\units.h">
+      <Filter>include\flecs\addons</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\bake_config.h">
+      <Filter>include\flecs</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\datastructures\allocator.h">
+      <Filter>include\flecs\datastructures</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\datastructures\bitset.h">
+      <Filter>include\flecs\datastructures</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\datastructures\block_allocator.h">
+      <Filter>include\flecs\datastructures</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\datastructures\hashmap.h">
+      <Filter>include\flecs\datastructures</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\datastructures\map.h">
+      <Filter>include\flecs\datastructures</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\datastructures\sparse.h">
+      <Filter>include\flecs\datastructures</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\datastructures\stack_allocator.h">
+      <Filter>include\flecs\datastructures</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\datastructures\strbuf.h">
+      <Filter>include\flecs\datastructures</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\datastructures\vec.h">
+      <Filter>include\flecs\datastructures</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\os_api.h">
+      <Filter>include\flecs</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\private\addons.h">
+      <Filter>include\flecs\private</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\private\api_defines.h">
+      <Filter>include\flecs\private</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\private\api_flags.h">
+      <Filter>include\flecs\private</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\private\api_internals.h">
+      <Filter>include\flecs\private</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\private\api_support.h">
+      <Filter>include\flecs\private</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\include\flecs\private\api_types.h">
+      <Filter>include\flecs\private</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{494199C6-ECBF-3A93-979A-34EA3E7CD407}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs">
+      <UniqueIdentifier>{029AC2B8-4A8E-3493-B2B3-7B92864340CB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons">
+      <UniqueIdentifier>{52F9A3D2-44CB-3463-8598-6E3F1A35B55D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp">
+      <UniqueIdentifier>{F36C9298-DAB7-3BE9-B46B-BEB949928D16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\impl">
+      <UniqueIdentifier>{E6C044A0-696B-3F25-92E0-2EB6658BEA73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins">
+      <UniqueIdentifier>{E619D4C2-DFC7-3099-B81D-DC697293983E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\alerts">
+      <UniqueIdentifier>{B0BFF795-E6A6-3771-ACF2-F8645D3B548F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\app">
+      <UniqueIdentifier>{A5166476-7D92-31E0-B6B8-7AF1988D31F2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\component">
+      <UniqueIdentifier>{FEAC6AD9-BE19-328C-AAD9-E06BDF3E800E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\doc">
+      <UniqueIdentifier>{D4354678-B683-3722-9EAE-BBAE0621E1C9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\entity">
+      <UniqueIdentifier>{B462E47A-BF23-3365-9EBD-70A215CE5283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\enum">
+      <UniqueIdentifier>{4C6459AE-4A92-385C-A99B-72A3ACBB27E7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\event">
+      <UniqueIdentifier>{DA3CE7C3-83E0-3421-B96D-33242EEDB072}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\id">
+      <UniqueIdentifier>{1769FA0A-0114-39E5-ADF1-426A5EF76BB8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\json">
+      <UniqueIdentifier>{CDF5D53E-C735-3E80-8155-998445A00D7E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\meta">
+      <UniqueIdentifier>{3847E67C-6E07-3E0E-A027-676A99996138}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\metrics">
+      <UniqueIdentifier>{2E70D65C-81D1-30B9-95DA-96659B7BBAC3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\module">
+      <UniqueIdentifier>{8785F8A4-183D-3FC1-8CC7-8347AF32A536}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\observer">
+      <UniqueIdentifier>{8B8FBE08-7E15-3FD2-8374-88FFD6F6744E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\pipeline">
+      <UniqueIdentifier>{09BA8059-5BD5-3C6A-AD2B-F8D1393CFB27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\query">
+      <UniqueIdentifier>{E92CA7B8-4464-3945-9FA6-6D9277344256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\rest">
+      <UniqueIdentifier>{A71424CE-DFA1-3E00-8FD5-19EA9E29406C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\script">
+      <UniqueIdentifier>{75CC7815-F7C2-36E8-9367-1614DCF8291E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\stats">
+      <UniqueIdentifier>{EFCD2479-E1F1-3779-8000-F9DC20D2459B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\system">
+      <UniqueIdentifier>{536D51B7-351A-388F-AE78-7199281E5F7E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\term">
+      <UniqueIdentifier>{F65F1C1B-FFF0-3574-B3FF-7C56A77F3B79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\timer">
+      <UniqueIdentifier>{C2EE0614-6089-311F-92C6-30F07E4F6310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\mixins\units">
+      <UniqueIdentifier>{8CBDB19F-A789-373A-8922-44E0AF2CBB91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\addons\cpp\utils">
+      <UniqueIdentifier>{DB8ECC05-2A74-3188-872C-39043D57CCD3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\datastructures">
+      <UniqueIdentifier>{BC1131F2-AFD5-34CD-A452-83F52DEAE8CE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\flecs\private">
+      <UniqueIdentifier>{DA779F65-353F-3E69-8A8B-4CB406516837}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{7B09E11B-CD60-3712-9CB3-4C27BDD51948}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\addons">
+      <UniqueIdentifier>{BB3B7FC4-CE3F-345C-BF5E-97D46CF6FA29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\addons\json">
+      <UniqueIdentifier>{9A52A57C-54AF-3BE5-845D-FBDFAE9041E4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\addons\meta">
+      <UniqueIdentifier>{9FCB846A-8D91-3F20-90C6-54A3F15824E6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\addons\meta\type_support">
+      <UniqueIdentifier>{E762CF2B-98CC-3460-AAF4-5B46D74ADB7B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\addons\os_api_impl">
+      <UniqueIdentifier>{2F4F1608-A556-33B6-8DCF-68A3EAB7EFC2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\addons\parser">
+      <UniqueIdentifier>{D491CDA2-8F3C-326A-985B-CAFD449385E2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\addons\pipeline">
+      <UniqueIdentifier>{F1AF855E-FDB0-3E02-8F92-7CD56C840AD7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\addons\query_dsl">
+      <UniqueIdentifier>{E1DDC92A-F981-3A36-BACF-E4B9A73C631C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\addons\script">
+      <UniqueIdentifier>{9E4A4289-61EE-3EB7-86D8-85F4573D68D5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\addons\script\expr">
+      <UniqueIdentifier>{D8F708A1-CE43-33C7-B08C-68E5CDB68044}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\addons\stats">
+      <UniqueIdentifier>{CDEBC0D4-B69A-389D-A2E0-105DFD5ACF96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\addons\system">
+      <UniqueIdentifier>{7FB2FC6B-920B-36CB-94C3-631448B6CF6D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\datastructures">
+      <UniqueIdentifier>{D97CAD98-2FC5-3F9E-B6DE-2389E8738498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\query">
+      <UniqueIdentifier>{7DEA2AC2-CF18-3896-9460-7E1F270D9568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\query\cache">
+      <UniqueIdentifier>{A6C0509C-70D5-3F31-9A69-E2F8C5B5396E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\query\compiler">
+      <UniqueIdentifier>{CC5C9A71-8B6C-3AAC-A1B3-2B5014ED0E85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\query\engine">
+      <UniqueIdentifier>{42D5B253-CB8E-3164-A7D5-E0738D48C948}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\storage">
+      <UniqueIdentifier>{72F26582-5928-3695-9D17-D64D96274AE7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

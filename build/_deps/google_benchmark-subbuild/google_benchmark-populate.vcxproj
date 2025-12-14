@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{20AA5D14-5F42-34FA-805E-077783164BB6}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>google_benchmark-populate</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-mkdir.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Creating directories for 'google_benchmark-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -Dcfgdir=/Debug -P D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/google_benchmark-populate-prefix/tmp/google_benchmark-populate-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/google_benchmark-populate-prefix/src/google_benchmark-populate-stamp/Debug/google_benchmark-populate-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-mkdir</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-download.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing download step (git clone) for 'google_benchmark-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/google_benchmark-populate-prefix/tmp/google_benchmark-populate-gitclone.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/google_benchmark-populate-prefix/src/google_benchmark-populate-stamp/Debug/google_benchmark-populate-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\google_benchmark-populate-gitinfo.txt;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-mkdir;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-download</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-update.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing update step for 'google_benchmark-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-src
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/google_benchmark-populate-prefix/tmp/google_benchmark-populate-gitupdate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\tmp\google_benchmark-populate-gitupdate.cmake;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\google_benchmark-populate-update-info.txt;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-download;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-update</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-patch.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No patch step for 'google_benchmark-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/google_benchmark-populate-prefix/src/google_benchmark-populate-stamp/Debug/google_benchmark-populate-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\google_benchmark-populate-patch-info.txt;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-update;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-patch</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-configure.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No configure step for 'google_benchmark-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/google_benchmark-populate-prefix/src/google_benchmark-populate-stamp/Debug/google_benchmark-populate-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\tmp\google_benchmark-populate-cfgcmd.txt;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-patch;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-configure</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-build.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No build step for 'google_benchmark-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/google_benchmark-populate-prefix/src/google_benchmark-populate-stamp/Debug/google_benchmark-populate-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-configure;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-build</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-install.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No install step for 'google_benchmark-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/google_benchmark-populate-prefix/src/google_benchmark-populate-stamp/Debug/google_benchmark-populate-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-install</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\c0a751af9c133578ea9de61e4ff3add4\google_benchmark-populate-test.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No test step for 'google_benchmark-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/google_benchmark-populate-prefix/src/google_benchmark-populate-stamp/Debug/google_benchmark-populate-test
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-install;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-test</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\e82cc71476672d8d1fbbf17cb435a5f0\google_benchmark-populate-complete.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Completed 'google_benchmark-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/CMakeFiles/Debug/google_benchmark-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/google_benchmark-populate-prefix/src/google_benchmark-populate-stamp/Debug/google_benchmark-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-install;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-mkdir;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-download;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-update;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-patch;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-configure;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-build;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\src\google_benchmark-populate-stamp\Debug\google_benchmark-populate-test;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\Debug\google_benchmark-populate-complete</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\e909f1cc4325624accc5f0001ba215cb\google_benchmark-populate.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\Debug\google_benchmark-populate-complete;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\google_benchmark-populate</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild -BD:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild --check-stamp-file D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeDetermineSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystem.cmake.in;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\ExternalProject.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\ExternalProject\PatchInfo.txt.in;C:\Program Files\CMake\share\cmake-3.31\Modules\ExternalProject\RepositoryInfo.txt.in;C:\Program Files\CMake\share\cmake-3.31\Modules\ExternalProject\UpdateInfo.txt.in;C:\Program Files\CMake\share\cmake-3.31\Modules\ExternalProject\cfgcmd.txt.in;C:\Program Files\CMake\share\cmake-3.31\Modules\ExternalProject\gitclone.cmake.in;C:\Program Files\CMake\share\cmake-3.31\Modules\ExternalProject\gitupdate.cmake.in;C:\Program Files\CMake\share\cmake-3.31\Modules\ExternalProject\mkdirs.cmake.in;C:\Program Files\CMake\share\cmake-3.31\Modules\ExternalProject\shared_internal_commands.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.31\Modules\Platform\WindowsPaths.cmake;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\3.31.5\CMakeSystem.cmake;D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\google_benchmark-populate-prefix\tmp\google_benchmark-populate-mkdirs.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\CMakeFiles\google_benchmark-populate">
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="D:\projects\pet\ecss_benchmarks\build\_deps\google_benchmark-subbuild\ZERO_CHECK.vcxproj">
+      <Project>{800AFFB7-8465-3165-96DB-9C99BDBC3ED1}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

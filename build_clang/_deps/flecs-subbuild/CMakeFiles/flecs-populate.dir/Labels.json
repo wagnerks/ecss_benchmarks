@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/projects/pet/ecss_benchmarks/build_clang/_deps/flecs-subbuild/CMakeFiles/flecs-populate"
+		},
+		{
+			"file" : "D:/projects/pet/ecss_benchmarks/build_clang/_deps/flecs-subbuild/CMakeFiles/flecs-populate.rule"
+		},
+		{
+			"file" : "D:/projects/pet/ecss_benchmarks/build_clang/_deps/flecs-subbuild/CMakeFiles/flecs-populate-complete.rule"
+		},
+		{
+			"file" : "D:/projects/pet/ecss_benchmarks/build_clang/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/flecs-populate-build.rule"
+		},
+		{
+			"file" : "D:/projects/pet/ecss_benchmarks/build_clang/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/flecs-populate-configure.rule"
+		},
+		{
+			"file" : "D:/projects/pet/ecss_benchmarks/build_clang/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/flecs-populate-download.rule"
+		},
+		{
+			"file" : "D:/projects/pet/ecss_benchmarks/build_clang/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/flecs-populate-install.rule"
+		},
+		{
+			"file" : "D:/projects/pet/ecss_benchmarks/build_clang/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/flecs-populate-mkdir.rule"
+		},
+		{
+			"file" : "D:/projects/pet/ecss_benchmarks/build_clang/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/flecs-populate-patch.rule"
+		},
+		{
+			"file" : "D:/projects/pet/ecss_benchmarks/build_clang/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/flecs-populate-test.rule"
+		},
+		{
+			"file" : "D:/projects/pet/ecss_benchmarks/build_clang/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/flecs-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"flecs-populate"
+		],
+		"name" : "flecs-populate"
+	}
+}

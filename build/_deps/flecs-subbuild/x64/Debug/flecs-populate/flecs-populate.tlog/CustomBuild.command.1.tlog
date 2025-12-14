@@ -1,0 +1,150 @@
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\FLECS-SUBBUILD\CMAKEFILES\E64114C1C5FB2465F2652CDA1ADFE549\FLECS-POPULATE-MKDIR.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -Dcfgdir=/Debug -P D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/flecs-populate-prefix/tmp/flecs-populate-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/Debug/flecs-populate-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\FLECS-SUBBUILD\CMAKEFILES\E64114C1C5FB2465F2652CDA1ADFE549\FLECS-POPULATE-DOWNLOAD.RULE
+setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/flecs-populate-prefix/tmp/flecs-populate-gitclone.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/Debug/flecs-populate-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\FLECS-SUBBUILD\CMAKEFILES\E64114C1C5FB2465F2652CDA1ADFE549\FLECS-POPULATE-UPDATE.RULE
+setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\flecs-src
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/flecs-populate-prefix/tmp/flecs-populate-gitupdate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\FLECS-SUBBUILD\CMAKEFILES\E64114C1C5FB2465F2652CDA1ADFE549\FLECS-POPULATE-PATCH.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/Debug/flecs-populate-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\FLECS-SUBBUILD\CMAKEFILES\E64114C1C5FB2465F2652CDA1ADFE549\FLECS-POPULATE-CONFIGURE.RULE
+setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\flecs-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/Debug/flecs-populate-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\FLECS-SUBBUILD\CMAKEFILES\E64114C1C5FB2465F2652CDA1ADFE549\FLECS-POPULATE-BUILD.RULE
+setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\flecs-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/Debug/flecs-populate-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\FLECS-SUBBUILD\CMAKEFILES\E64114C1C5FB2465F2652CDA1ADFE549\FLECS-POPULATE-INSTALL.RULE
+setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\flecs-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/Debug/flecs-populate-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\FLECS-SUBBUILD\CMAKEFILES\E64114C1C5FB2465F2652CDA1ADFE549\FLECS-POPULATE-TEST.RULE
+setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\flecs-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/Debug/flecs-populate-test
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\FLECS-SUBBUILD\CMAKEFILES\B599CD544EF62CB8D7B1233315204384\FLECS-POPULATE-COMPLETE.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/CMakeFiles/Debug/flecs-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/flecs-populate-prefix/src/flecs-populate-stamp/Debug/flecs-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\FLECS-SUBBUILD\CMAKEFILES\92B1DFD843B1A1E98F9069556EA3C45B\FLECS-POPULATE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\FLECS-SUBBUILD\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild -BD:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild --check-stamp-file D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

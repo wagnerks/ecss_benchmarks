@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\entt-subbuild\CMakeFiles\8febef37a93119b587fa44cb719165db\entt-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\entt-subbuild\CMakeFiles\8febef37a93119b587fa44cb719165db\entt-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\entt-subbuild\CMakeFiles\8febef37a93119b587fa44cb719165db\entt-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\entt-subbuild\CMakeFiles\8febef37a93119b587fa44cb719165db\entt-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\entt-subbuild\CMakeFiles\8febef37a93119b587fa44cb719165db\entt-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\entt-subbuild\CMakeFiles\8febef37a93119b587fa44cb719165db\entt-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\entt-subbuild\CMakeFiles\8febef37a93119b587fa44cb719165db\entt-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\entt-subbuild\CMakeFiles\8febef37a93119b587fa44cb719165db\entt-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\entt-subbuild\CMakeFiles\9ce567f3e4398fe4410d66f026695d47\entt-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\entt-subbuild\CMakeFiles\f6e215efa85cbe29ef7c01948b15427b\entt-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\projects\pet\ecss_benchmarks\build\_deps\entt-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\projects\pet\ecss_benchmarks\build\_deps\entt-subbuild\CMakeFiles\entt-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{A48BF37E-E934-3817-8317-707AE1782B13}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

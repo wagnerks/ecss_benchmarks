@@ -1,0 +1,10 @@
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\GOOGLE_BENCHMARK-SRC\SRC\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/projects/pet/ecss_benchmarks -BD:/projects/pet/ecss_benchmarks/build --check-stamp-file D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-build/src/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

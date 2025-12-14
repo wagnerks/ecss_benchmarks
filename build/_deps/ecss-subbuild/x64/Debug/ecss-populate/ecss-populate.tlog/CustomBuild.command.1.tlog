@@ -1,0 +1,150 @@
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\ECSS-SUBBUILD\CMAKEFILES\D424C724F5C77DC68E8D723696321A9B\ECSS-POPULATE-MKDIR.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -Dcfgdir=/Debug -P D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/ecss-populate-prefix/tmp/ecss-populate-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/ecss-populate-prefix/src/ecss-populate-stamp/Debug/ecss-populate-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\ECSS-SUBBUILD\CMAKEFILES\D424C724F5C77DC68E8D723696321A9B\ECSS-POPULATE-DOWNLOAD.RULE
+setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/ecss-populate-prefix/tmp/ecss-populate-gitclone.cmake
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/ecss-populate-prefix/src/ecss-populate-stamp/Debug/ecss-populate-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\ECSS-SUBBUILD\CMAKEFILES\D424C724F5C77DC68E8D723696321A9B\ECSS-POPULATE-UPDATE.RULE
+setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\ecss-src
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/ecss-populate-prefix/tmp/ecss-populate-gitupdate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\ECSS-SUBBUILD\CMAKEFILES\D424C724F5C77DC68E8D723696321A9B\ECSS-POPULATE-PATCH.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/ecss-populate-prefix/src/ecss-populate-stamp/Debug/ecss-populate-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\ECSS-SUBBUILD\CMAKEFILES\D424C724F5C77DC68E8D723696321A9B\ECSS-POPULATE-CONFIGURE.RULE
+setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\ecss-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/ecss-populate-prefix/src/ecss-populate-stamp/Debug/ecss-populate-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\ECSS-SUBBUILD\CMAKEFILES\D424C724F5C77DC68E8D723696321A9B\ECSS-POPULATE-BUILD.RULE
+setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\ecss-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/ecss-populate-prefix/src/ecss-populate-stamp/Debug/ecss-populate-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\ECSS-SUBBUILD\CMAKEFILES\D424C724F5C77DC68E8D723696321A9B\ECSS-POPULATE-INSTALL.RULE
+setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\ecss-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/ecss-populate-prefix/src/ecss-populate-stamp/Debug/ecss-populate-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\ECSS-SUBBUILD\CMAKEFILES\D424C724F5C77DC68E8D723696321A9B\ECSS-POPULATE-TEST.RULE
+setlocal
+cd D:\projects\pet\ecss_benchmarks\build\_deps\ecss-build
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/ecss-populate-prefix/src/ecss-populate-stamp/Debug/ecss-populate-test
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\ECSS-SUBBUILD\CMAKEFILES\7377E18E4F4748E56369C8B4CB65E589\ECSS-POPULATE-COMPLETE.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E make_directory D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/CMakeFiles/Debug/ecss-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\CMake\bin\cmake.exe" -E touch D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/ecss-populate-prefix/src/ecss-populate-stamp/Debug/ecss-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\ECSS-SUBBUILD\CMAKEFILES\665DB4A29C50A860A364348D06A48421\ECSS-POPULATE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\ECSS-SUBBUILD\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild -BD:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild --check-stamp-file D:/projects/pet/ecss_benchmarks/build/_deps/ecss-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

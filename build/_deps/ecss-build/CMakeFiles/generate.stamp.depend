@@ -1,0 +1,7 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.31/Modules/CTest.cmake
+C:/Program Files/CMake/share/cmake-3.31/Modules/CTestTargets.cmake
+C:/Program Files/CMake/share/cmake-3.31/Modules/CTestUseLaunchers.cmake
+C:/Program Files/CMake/share/cmake-3.31/Modules/DartConfiguration.tcl.in
+D:/projects/pet/ecss_benchmarks/build/CMakeFiles/cmake.verify_globs
+D:/projects/pet/ecss_benchmarks/build/_deps/ecss-src/CMakeLists.txt

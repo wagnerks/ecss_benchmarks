@@ -1,0 +1,10 @@
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\ENTT-SUBBUILD\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/projects/pet/ecss_benchmarks/build/_deps/entt-subbuild -BD:/projects/pet/ecss_benchmarks/build/_deps/entt-subbuild --check-stamp-file D:/projects/pet/ecss_benchmarks/build/_deps/entt-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

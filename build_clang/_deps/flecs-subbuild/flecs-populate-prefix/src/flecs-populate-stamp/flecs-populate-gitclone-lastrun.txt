@@ -1,0 +1,15 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=git
+command=C:/Program Files/CMake/bin/cmake.exe;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;D:/projects/pet/ecss_benchmarks/build_clang/_deps/flecs-subbuild/flecs-populate-prefix/tmp/flecs-populate-gitclone.cmake
+source_dir=D:/projects/pet/ecss_benchmarks/build_clang/_deps/flecs-src
+work_dir=D:/projects/pet/ecss_benchmarks/build_clang/_deps
+repository=https://github.com/SanderMertens/flecs.git
+remote=origin
+init_submodules=TRUE
+recurse_submodules=--recursive
+submodules=
+CMP0097=NEW
+      

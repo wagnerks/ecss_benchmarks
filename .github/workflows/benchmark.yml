@@ -26,10 +26,10 @@ jobs:
         run: cmake --build build -j$(nproc)
 
       - name: Run benchmarks
-        timeout-minutes: 10
+        timeout-minutes: 30
         run: |
           mkdir -p benchmark-results
-          ./build/ecss_benchmarks --benchmark_format=json --benchmark_out=benchmark-results/results-gcc.json --benchmark_min_time=0.1s
+          ./build/ecss_benchmarks --benchmark_format=json --benchmark_out=benchmark-results/results-gcc.json
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -52,11 +52,11 @@ jobs:
         run: cmake --build build --config Release -j $env:NUMBER_OF_PROCESSORS
 
       - name: Run benchmarks
-        timeout-minutes: 30
+        timeout-minutes: 60
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path benchmark-results
-          .\build\Release\ecss_benchmarks.exe --benchmark_format=json --benchmark_out=benchmark-results\results-msvc.json --benchmark_min_time=0.1s
+          .\build\Release\ecss_benchmarks.exe --benchmark_format=json --benchmark_out=benchmark-results\results-msvc.json
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

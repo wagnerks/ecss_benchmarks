@@ -1,0 +1,10 @@
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\GOOGLE_BENCHMARK-SUBBUILD\CMAKEFILES\E909F1CC4325624ACCC5F0001BA215CB\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild -BD:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/projects/pet/ecss_benchmarks/build/_deps/google_benchmark-subbuild/google_benchmark-populate.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

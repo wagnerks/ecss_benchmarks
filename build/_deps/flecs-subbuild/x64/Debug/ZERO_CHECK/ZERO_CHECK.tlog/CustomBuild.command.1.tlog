@@ -1,0 +1,10 @@
+^D:\PROJECTS\PET\ECSS_BENCHMARKS\BUILD\_DEPS\FLECS-SUBBUILD\CMAKEFILES\92B1DFD843B1A1E98F9069556EA3C45B\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild -BD:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/projects/pet/ecss_benchmarks/build/_deps/flecs-subbuild/flecs-populate.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
