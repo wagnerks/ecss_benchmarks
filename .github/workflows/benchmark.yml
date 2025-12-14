@@ -89,6 +89,24 @@ jobs:
       - name: Keep legacy results.json (copy from gcc)
         run: cp gh-pages/results-gcc.json gh-pages/results.json
 
+      - name: Minify JSON results
+        run: |
+          cd gh-pages
+          node -e "
+          const fs = require('fs');
+          ['results-gcc.json', 'results-msvc.json'].forEach(file => {
+            if (!fs.existsSync(file)) return;
+            const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+            const min = {
+              context: data.context,
+              benchmarks: data.benchmarks.map(b => ({ name: b.name, cpu_time: b.cpu_time }))
+            };
+            const outFile = file.replace('.json', '.min.json');
+            fs.writeFileSync(outFile, JSON.stringify(min));
+            console.log(file + ' -> ' + outFile + ' (' + (fs.statSync(outFile).size/1024).toFixed(1) + ' KB)');
+          });
+          "
+
       - name: Upload to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
