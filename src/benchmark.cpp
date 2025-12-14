@@ -911,15 +911,15 @@ namespace flecs {
 #define TO_FUNC_NAME(funcName, ecs) #ecs "....................." #funcName
 
 #define BENCH_ARGS(F, ECS, FUNC) \
-    F(ECS, FUNC, 1000, 30) \
-    F(ECS, FUNC, 5000, 25) \
-    F(ECS, FUNC, 50000, 20) \
-    F(ECS, FUNC, 250000, 15) \
-    F(ECS, FUNC, 500000, 10) \
-    F(ECS, FUNC, 1000000, 5)
+    F(ECS, FUNC, 1000) \
+    F(ECS, FUNC, 5000) \
+    F(ECS, FUNC, 50000) \
+    F(ECS, FUNC, 250000) \
+    F(ECS, FUNC, 500000) \
+    F(ECS, FUNC, 1000000)
 
-#define BENCH_ONE(ECS, FUNC, ARG, ITERS) \
-    BENCHMARK(ECS::FUNC)->Name(TO_FUNC_NAME(FUNC, ECS))->Unit(benchmark::TimeUnit::kMicrosecond)->Arg(ARG)->Iterations(ITERS);
+#define BENCH_ONE(ECS, FUNC, ARG) \
+    BENCHMARK(ECS::FUNC)->Name(TO_FUNC_NAME(FUNC, ECS))->Unit(benchmark::TimeUnit::kMicrosecond)->Arg(ARG)->MinTime(1.0);
 
 #define REGISTER_BENCHMARK(ecs0, ecs1, ecs2, ecs3, ecs4, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs0, FUNC) \
