@@ -23,16 +23,21 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(google_benchmark)
 
-# ecss
+# ecss - use local version for testing
 set(ECSS_BUILD_TESTS OFF CACHE BOOL "" FORCE) # disable ecss tests
 set(ECSS_BUILD_STATIC OFF CACHE BOOL "" FORCE) # disable ecss as static lib
 
-FetchContent_Declare(
-    ecss
-    GIT_REPOSITORY https://github.com/wagnerks/ecss.git
-    GIT_TAG main
-)
-FetchContent_MakeAvailable(ecss)
+# Use local ecss if available, otherwise fetch from GitHub
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../ecss/CMakeLists.txt")
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../ecss ${CMAKE_BINARY_DIR}/ecss)
+else()
+    FetchContent_Declare(
+        ecss
+        GIT_REPOSITORY https://github.com/wagnerks/ecss.git
+        GIT_TAG main
+    )
+    FetchContent_MakeAvailable(ecss)
+endif()
 
 # EnTT (header-only)
 FetchContent_Declare(

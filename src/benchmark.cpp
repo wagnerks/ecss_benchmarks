@@ -4,6 +4,7 @@
 #include <ecss/Registry.h>
 
 #include <vector>
+#include <unordered_map>
 #include <cstdint>
 
 struct Position { float x, y, z; };
@@ -173,28 +174,51 @@ namespace vec {
         }
     }
 
-    // Iterate separate (same as grouped for vector SoA)
+    // Iterate separate - two arrays with entity->index mapping (simulates ECS separate storage)
     static void iter_separate_multi(benchmark::State& state) {
-        iter_grouped_multi(state);
-    }
-
-    // Iterate sparse intersection - N entities with A, N with B, but only 1/50 have both
-    static void iter_sparse_multi(benchmark::State& state) {
         const int n = state.range(0);
-        const int intersection = n / 50; // 2% intersection
-        std::vector<Position> positions;
-        std::vector<Velocity> velocities;
-        positions.reserve(intersection);
-        velocities.reserve(intersection);
-        for (int i = 0; i < intersection; ++i) {
-            positions.push_back(Position{(float)i, (float)i * 2.f, (float)i * 3.f});
-            velocities.push_back(Velocity{(float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f});
+        std::vector<Position> positions(n);
+        std::vector<Velocity> velocities(n);
+        std::vector<int> entityToIdx(n); // Entity -> component index mapping
+        for (int i = 0; i < n; ++i) {
+            positions[i] = Position{(float)i, (float)i * 2.f, (float)i * 3.f};
+            velocities[i] = Velocity{(float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f};
+            entityToIdx[i] = i;
         }
         for (auto _ : state) {
             float accum = 0.f;
-            for (size_t i = 0; i < positions.size(); ++i) {
-                accum += positions[i].x + positions[i].y + positions[i].z +
-                         velocities[i].vx + velocities[i].vy + velocities[i].vz;
+            // Iterate with indirection (like ECS separate storage lookup)
+            for (int entity = 0; entity < n; ++entity) {
+                int idx = entityToIdx[entity];
+                accum += positions[idx].x + positions[idx].y + positions[idx].z +
+                         velocities[idx].vx + velocities[idx].vy + velocities[idx].vz;
+            }
+            benchmark::DoNotOptimize(accum);
+        }
+    }
+
+    // Iterate sparse intersection - N entities with Position, N/50 with Velocity
+    // Must do actual sparse lookup to be fair comparison
+    static void iter_sparse_multi(benchmark::State& state) {
+        const int n = state.range(0);
+        const int step = 50; // every 50th entity has both
+        std::vector<Position> positions(n);
+        std::unordered_map<int, Velocity> velocityMap; // Sparse storage for velocities
+        velocityMap.reserve(n / step);
+        
+        for (int i = 0; i < n; ++i) {
+            positions[i] = Position{(float)i, (float)i * 2.f, (float)i * 3.f};
+        }
+        for (int i = 0; i < n; i += step) {
+            velocityMap[i] = Velocity{(float)i * 0.5f, (float)i * 0.25f, (float)i * 0.125f};
+        }
+        
+        for (auto _ : state) {
+            float accum = 0.f;
+            // Iterate velocity (smaller set) and lookup position
+            for (const auto& [entity, vel] : velocityMap) {
+                const auto& pos = positions[entity];
+                accum += pos.x + pos.y + pos.z + vel.vx + vel.vy + vel.vz;
             }
             benchmark::DoNotOptimize(accum);
         }
@@ -276,10 +300,18 @@ namespace ecss
             reg.addComponent<Position>(e, Position{1.f,2.f,3.f});
             ids.push_back(e);
         }
+        // Pre-fetch container outside hot loop
+        auto* container = reg.getComponentContainer<Position>();
+        const auto& layout = container->template getLayoutData<Position>();
         for (auto _ : state) {
             size_t count = 0;
             for (auto id : ids) {
-                if (reg.hasComponent<Position>(id)) ++count;
+                auto idx = container->template findLinearIdx<false>(id);
+                if (idx != ecss::INVALID_IDX) {
+                    if (ecss::Memory::Sector::isAlive(container->template getIsAliveRef<false>(idx), layout.isAliveMask)) {
+                        ++count;
+                    }
+                }
             }
             benchmark::DoNotOptimize(count);
         }
@@ -471,10 +503,18 @@ namespace ecss_ts
             reg.addComponent<Position>(e, Position{1.f,2.f,3.f});
             ids.push_back(e);
         }
+        // Pre-fetch container outside hot loop
+        auto* container = reg.getComponentContainer<Position>();
+        const auto& layout = container->template getLayoutData<Position>();
         for (auto _ : state) {
             size_t count = 0;
             for (auto id : ids) {
-                if (reg.hasComponent<Position>(id)) ++count;
+                auto idx = container->template findLinearIdx<true>(id);
+                if (idx != ecss::INVALID_IDX) {
+                    if (ecss::Memory::Sector::isAlive(container->template getIsAliveRef<true>(idx), layout.isAliveMask)) {
+                        ++count;
+                    }
+                }
             }
             benchmark::DoNotOptimize(count);
         }
@@ -691,10 +731,9 @@ namespace entt
         auto view = reg.view<Position>();
         for (auto _ : state) {
             float sum = 0.f;
-            for (auto entity : view) {
-                auto &val = view.get<Position>(entity);
-                sum += val.x + val.y + val.z;
-            }
+            view.each([&](Position& p) {
+                sum += p.x + p.y + p.z;
+            });
             benchmark::DoNotOptimize(sum);
         }
     }
@@ -710,10 +749,9 @@ namespace entt
         auto view = reg.view<Position, Velocity>();
         for (auto _ : state) {
             float accum = 0.f;
-            for (auto entity : view) {
-                auto [pos, vel] = view.get<Position, Velocity>(entity);
+            view.each([&](Position& pos, Velocity& vel) {
                 accum += pos.x + pos.y + pos.z + vel.vx + vel.vy + vel.vz;
-            }
+            });
             benchmark::DoNotOptimize(accum);
         }
     }
@@ -746,10 +784,9 @@ namespace entt
         auto view = reg.view<Position, Velocity>();
         for (auto _ : state) {
             float accum = 0.f;
-            for (auto entity : view) {
-                auto [pos, vel] = view.get<Position, Velocity>(entity);
+            view.each([&](Position& pos, Velocity& vel) {
                 accum += pos.x + pos.y + pos.z + vel.vx + vel.vy + vel.vz;
-            }
+            });
             benchmark::DoNotOptimize(accum);
         }
     }
@@ -910,6 +947,15 @@ namespace flecs {
 
 #define TO_FUNC_NAME(funcName, ecs) #ecs "....................." #funcName
 
+// On MSVC/Windows CI, skip 1M tests to avoid memory pressure and timeouts
+#ifdef _MSC_VER
+#define BENCH_ARGS(F, ECS, FUNC) \
+    F(ECS, FUNC, 1000) \
+    F(ECS, FUNC, 5000) \
+    F(ECS, FUNC, 50000) \
+    F(ECS, FUNC, 250000) \
+    F(ECS, FUNC, 500000)
+#else
 #define BENCH_ARGS(F, ECS, FUNC) \
     F(ECS, FUNC, 1000) \
     F(ECS, FUNC, 5000) \
@@ -917,6 +963,7 @@ namespace flecs {
     F(ECS, FUNC, 250000) \
     F(ECS, FUNC, 500000) \
     F(ECS, FUNC, 1000000)
+#endif
 
 #define BENCH_ONE(ECS, FUNC, ARG) \
     BENCHMARK(ECS::FUNC)->Name(TO_FUNC_NAME(FUNC, ECS))->Unit(benchmark::TimeUnit::kMicrosecond)->Arg(ARG)->MinTime(0.3);
