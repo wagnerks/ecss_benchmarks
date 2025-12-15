@@ -300,17 +300,16 @@ namespace ecss
             reg.addComponent<Position>(e, Position{1.f,2.f,3.f});
             ids.push_back(e);
         }
-        // Pre-fetch container outside hot loop
+        // Pre-fetch container - same pattern as entt's view caching
         auto* container = reg.getComponentContainer<Position>();
         const auto& layout = container->template getLayoutData<Position>();
         for (auto _ : state) {
             size_t count = 0;
             for (auto id : ids) {
                 auto idx = container->template findLinearIdx<false>(id);
-                if (idx != ecss::INVALID_IDX) {
-                    if (ecss::Memory::Sector::isAlive(container->template getIsAliveRef<false>(idx), layout.isAliveMask)) {
-                        ++count;
-                    }
+                if (idx != ecss::INVALID_IDX && 
+                    ecss::Memory::Sector::isAlive(container->template getIsAliveRef<false>(idx), layout.isAliveMask)) {
+                    ++count;
                 }
             }
             benchmark::DoNotOptimize(count);
@@ -503,17 +502,16 @@ namespace ecss_ts
             reg.addComponent<Position>(e, Position{1.f,2.f,3.f});
             ids.push_back(e);
         }
-        // Pre-fetch container outside hot loop
+        // Pre-fetch container - same pattern as entt's view caching
         auto* container = reg.getComponentContainer<Position>();
         const auto& layout = container->template getLayoutData<Position>();
         for (auto _ : state) {
             size_t count = 0;
             for (auto id : ids) {
                 auto idx = container->template findLinearIdx<true>(id);
-                if (idx != ecss::INVALID_IDX) {
-                    if (ecss::Memory::Sector::isAlive(container->template getIsAliveRef<true>(idx), layout.isAliveMask)) {
-                        ++count;
-                    }
+                if (idx != ecss::INVALID_IDX && 
+                    ecss::Memory::Sector::isAlive(container->template getIsAliveRef<true>(idx), layout.isAliveMask)) {
+                    ++count;
                 }
             }
             benchmark::DoNotOptimize(count);
@@ -947,15 +945,6 @@ namespace flecs {
 
 #define TO_FUNC_NAME(funcName, ecs) #ecs "....................." #funcName
 
-// On MSVC/Windows CI, skip 1M tests to avoid memory pressure and timeouts
-#ifdef _MSC_VER
-#define BENCH_ARGS(F, ECS, FUNC) \
-    F(ECS, FUNC, 1000) \
-    F(ECS, FUNC, 5000) \
-    F(ECS, FUNC, 50000) \
-    F(ECS, FUNC, 250000) \
-    F(ECS, FUNC, 500000)
-#else
 #define BENCH_ARGS(F, ECS, FUNC) \
     F(ECS, FUNC, 1000) \
     F(ECS, FUNC, 5000) \
@@ -963,7 +952,6 @@ namespace flecs {
     F(ECS, FUNC, 250000) \
     F(ECS, FUNC, 500000) \
     F(ECS, FUNC, 1000000)
-#endif
 
 #define BENCH_ONE(ECS, FUNC, ARG) \
     BENCHMARK(ECS::FUNC)->Name(TO_FUNC_NAME(FUNC, ECS))->Unit(benchmark::TimeUnit::kMicrosecond)->Arg(ARG)->MinTime(0.3);
