@@ -300,15 +300,13 @@ namespace ecss
             reg.addComponent<Position>(e, Position{1.f,2.f,3.f});
             ids.push_back(e);
         }
-        // Pre-fetch container - same pattern as entt's view caching
-        auto* container = reg.getComponentContainer<Position>();
-        const auto& layout = container->template getLayoutData<Position>();
+        // Public API, like entt's all_of() and flecs's has(). Hoisting the container and the
+        // layout out of the loop and calling findLinearIdx<false>/isAlive directly measured a
+        // hand-rolled internal path against the others' documented one.
         for (auto _ : state) {
             size_t count = 0;
             for (auto id : ids) {
-                auto idx = container->template findLinearIdx<false>(id);
-                if (idx != ecss::INVALID_IDX && 
-                    ecss::Memory::Sector::isAlive(container->template getIsAliveRef<false>(idx), layout.isAliveMask)) {
+                if (reg.hasComponent<Position>(id)) {
                     ++count;
                 }
             }
@@ -502,15 +500,11 @@ namespace ecss_ts
             reg.addComponent<Position>(e, Position{1.f,2.f,3.f});
             ids.push_back(e);
         }
-        // Pre-fetch container - same pattern as entt's view caching
-        auto* container = reg.getComponentContainer<Position>();
-        const auto& layout = container->template getLayoutData<Position>();
+        // Public API, as in the single-threaded namespace above.
         for (auto _ : state) {
             size_t count = 0;
             for (auto id : ids) {
-                auto idx = container->template findLinearIdx<true>(id);
-                if (idx != ecss::INVALID_IDX && 
-                    ecss::Memory::Sector::isAlive(container->template getIsAliveRef<true>(idx), layout.isAliveMask)) {
+                if (reg.hasComponent<Position>(id)) {
                     ++count;
                 }
             }
@@ -911,7 +905,11 @@ namespace flecs {
         }
     }
 
-    static void iter_separate_multi(benchmark::State &state) { // same layout for flecs
+    // flecs has no separate case: entities carrying both components share a table whatever
+    // order they were added in, so this is the grouped benchmark under a second name. It is
+    // kept so the chart has a bar in this column, but the two flecs numbers are one
+    // measurement -- any difference between them is run-to-run noise, not a result.
+    static void iter_separate_multi(benchmark::State &state) {
         iter_grouped_multi(state);
     }
 
@@ -956,22 +954,17 @@ namespace flecs {
 #define BENCH_ONE(ECS, FUNC, ARG) \
     BENCHMARK(ECS::FUNC)->Name(TO_FUNC_NAME(FUNC, ECS))->Unit(benchmark::TimeUnit::kMicrosecond)->Arg(ARG)->MinTime(0.3);
 
-// MSVC has issues with std::atomic::wait()/notify_all() used in ecss_ts (thread-safe version)
-// Skip ecss_ts benchmarks on Windows to avoid hangs/crashes
-#ifdef _MSC_VER
-#define REGISTER_BENCHMARK(ecs0, ecs1, ecs2, ecs3, ecs4, FUNC) \
-    BENCH_ARGS(BENCH_ONE, ecs0, FUNC) \
-    BENCH_ARGS(BENCH_ONE, ecs1, FUNC) \
-    BENCH_ARGS(BENCH_ONE, ecs3, FUNC) \
-    BENCH_ARGS(BENCH_ONE, ecs4, FUNC)
-#else
+// ecss_ts is the thread-safe build, measured against three containers that are not. It is
+// the price of the guarantee, not a like-for-like comparison. It used to be skipped on
+// Windows because the structural waits parked on std::atomic::wait, which has no timed
+// form and never woke when a wait could not be satisfied; those waits spin, yield and poll
+// to a deadline now, so it runs here too.
 #define REGISTER_BENCHMARK(ecs0, ecs1, ecs2, ecs3, ecs4, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs0, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs1, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs2, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs3, FUNC) \
     BENCH_ARGS(BENCH_ONE, ecs4, FUNC)
-#endif
 
 REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, insert)
 REGISTER_BENCHMARK(vec, ecss, ecss_ts, entt, flecs, create_entities)
