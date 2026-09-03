@@ -320,17 +320,23 @@ namespace ecss
         using ecss::EntityId;
         for (auto _ : state) {
             state.PauseTiming();
-            Reg reg;
-            std::vector<EntityId> ids; ids.reserve(state.range(0));
-            for (int i = 0; i < state.range(0); ++i) {
-                auto e = reg.takeEntity();
-                reg.addComponent<Position>(e, Position{ 0.f,0.f,0.f });
-                reg.addComponent<Velocity>(e, Velocity{ 0.f,0.f,0.f });
-                ids.push_back(e);
+            {
+                Reg reg;
+                std::vector<EntityId> ids; ids.reserve(state.range(0));
+                for (int i = 0; i < state.range(0); ++i) {
+                    auto e = reg.takeEntity();
+                    reg.addComponent<Position>(e, Position{ 0.f,0.f,0.f });
+                    reg.addComponent<Velocity>(e, Velocity{ 0.f,0.f,0.f });
+                    ids.push_back(e);
+                }
+                state.ResumeTiming();
+                reg.destroyEntities(ids);
+                benchmark::ClobberMemory();
+                // Tearing the world down is not what this benchmark claims to measure,
+                // and it is not the same price for everyone -- stop the clock first.
+                state.PauseTiming();
             }
             state.ResumeTiming();
-            reg.destroyEntities(ids);
-            benchmark::ClobberMemory();
         }
     }
 
@@ -518,17 +524,23 @@ namespace ecss_ts
         using ecss::EntityId;
         for (auto _ : state) {
             state.PauseTiming();
-            Reg reg;
-            std::vector<EntityId> ids; ids.reserve(state.range(0));
-            for (int i = 0; i < state.range(0); ++i) {
-                auto e = reg.takeEntity();
-                reg.addComponent<Position>(e, Position{ 0.f,0.f,0.f });
-                reg.addComponent<Velocity>(e, Velocity{ 0.f,0.f,0.f });
-                ids.push_back(e);
+            {
+                Reg reg;
+                std::vector<EntityId> ids; ids.reserve(state.range(0));
+                for (int i = 0; i < state.range(0); ++i) {
+                    auto e = reg.takeEntity();
+                    reg.addComponent<Position>(e, Position{ 0.f,0.f,0.f });
+                    reg.addComponent<Velocity>(e, Velocity{ 0.f,0.f,0.f });
+                    ids.push_back(e);
+                }
+                state.ResumeTiming();
+                reg.destroyEntities(ids);
+                benchmark::ClobberMemory();
+                // Tearing the world down is not what this benchmark claims to measure,
+                // and it is not the same price for everyone -- stop the clock first.
+                state.PauseTiming();
             }
             state.ResumeTiming();
-            reg.destroyEntities(ids);
-            benchmark::ClobberMemory();
         }
     }
 
@@ -699,17 +711,23 @@ namespace entt
     static void destroy_entities(benchmark::State& state) {
         for (auto _ : state) {
             state.PauseTiming();
-            big_registry reg;
-            std::vector<big_registry::entity_type> ids; ids.reserve(state.range(0));
-            for (int i = 0; i < state.range(0); ++i) {
-                auto e = reg.create();
-                reg.emplace<Position>(e, Position{0.f,0.f,0.f});
-                reg.emplace<Velocity>(e, Velocity{0.f,0.f,0.f});
-                ids.push_back(e);
+            {
+                big_registry reg;
+                std::vector<big_registry::entity_type> ids; ids.reserve(state.range(0));
+                for (int i = 0; i < state.range(0); ++i) {
+                    auto e = reg.create();
+                    reg.emplace<Position>(e, Position{0.f,0.f,0.f});
+                    reg.emplace<Velocity>(e, Velocity{0.f,0.f,0.f});
+                    ids.push_back(e);
+                }
+                state.ResumeTiming();
+                reg.destroy(ids.begin(), ids.end());
+                benchmark::ClobberMemory();
+                // Tearing the world down is not what this benchmark claims to measure,
+                // and it is not the same price for everyone -- stop the clock first.
+                state.PauseTiming();
             }
             state.ResumeTiming();
-            reg.destroy(ids.begin(), ids.end());
-            benchmark::ClobberMemory();
         }
     }
 
@@ -857,21 +875,27 @@ namespace flecs {
     static void destroy_entities(benchmark::State &state) {
         for (auto _ : state) {
             state.PauseTiming();
-            flecs_world world;
-            world.component<Position>();
-            world.component<Velocity>();
-            std::vector<flecs::entity> ids; ids.reserve(state.range(0));
-            for (int i = 0; i < state.range(0); ++i) {
-                ids.emplace_back(world.entity().set<Position>({0.f,0.f,0.f}).set<Velocity>({0.f,0.f,0.f}));
+            {
+                flecs_world world;
+                world.component<Position>();
+                world.component<Velocity>();
+                std::vector<flecs::entity> ids; ids.reserve(state.range(0));
+                for (int i = 0; i < state.range(0); ++i) {
+                    ids.emplace_back(world.entity().set<Position>({0.f,0.f,0.f}).set<Velocity>({0.f,0.f,0.f}));
+                }
+                state.ResumeTiming();
+                // Use defer for batch deletion (similar to ecss/entt batch APIs)
+                world.defer_begin();
+                for (auto &e : ids) {
+                    e.destruct();
+                }
+                world.defer_end();
+                benchmark::ClobberMemory();
+                // Tearing the world down is not what this benchmark claims to measure,
+                // and it is not the same price for everyone -- stop the clock first.
+                state.PauseTiming();
             }
             state.ResumeTiming();
-            // Use defer for batch deletion (similar to ecss/entt batch APIs)
-            world.defer_begin();
-            for (auto &e : ids) {
-                e.destruct();
-            }
-            world.defer_end();
-            benchmark::ClobberMemory();
         }
     }
 
